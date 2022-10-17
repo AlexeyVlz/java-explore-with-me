@@ -3,10 +3,11 @@ package explore_with_me.models.category;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class NewCategoryDto {
 
-    @NotBlank
-    String name;
+    @NotBlank @NotNull
+    private String name;
 }

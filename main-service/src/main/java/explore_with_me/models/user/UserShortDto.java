@@ -1,11 +1,13 @@
 package explore_with_me.models.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
 @Data
+@AllArgsConstructor
 public class UserShortDto {
 
-    Integer id;
-    String name;
+    private Long id;
+    private String name;
 }

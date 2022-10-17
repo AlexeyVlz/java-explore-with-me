@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class ParticipationRequestDto {
 
-    String created;
-    Integer event;
-    Integer id;
-    Integer requester;
-    String status;
+    private String created;
+    private Integer event;
+    private Long id;
+    private Integer requester;
+    private String status;
 }
