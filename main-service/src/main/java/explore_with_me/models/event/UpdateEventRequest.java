@@ -1,6 +1,5 @@
 package explore_with_me.models.event;
 
-import explore_with_me.models.category.CategoryDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -10,7 +9,7 @@ import javax.validation.constraints.Positive;
 public class UpdateEventRequest {
 
     private String annotation;
-    private CategoryDto categoryDto;
+    private Long category;
     private String description;
     private String eventDate;
     @NotNull @Positive

@@ -1,7 +1,7 @@
 package explore_with_me.controllers.publicControllers;
 
 import explore_with_me.models.category.CategoryDto;
-import explore_with_me.services.CategoryService;
+import explore_with_me.services.publicServices.PublicCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -17,21 +17,21 @@ import java.util.List;
 @Slf4j
 public class PublicCategoryController {
 
-    private final CategoryService categoryService;
+    private final PublicCategoryService publicCategoryService;
 
     @Autowired
-    public PublicCategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public PublicCategoryController(PublicCategoryService publicCategoryService) {
+        this.publicCategoryService = publicCategoryService;
     }
 
     @GetMapping
     public List<CategoryDto> getCategories(@RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
                                            @RequestParam (name = "size", defaultValue = "10") @Positive Integer size) {
-        return categoryService.getCategories(from, size);
+        return publicCategoryService.getCategories(from, size);
     }
 
     @GetMapping("/{catId}")
     public CategoryDto getCategoryById(@PathVariable @Positive Long catId) {
-        return categoryService.getCategoryById(catId);
+        return publicCategoryService.getCategoryDtoById(catId);
     }
 }

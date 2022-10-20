@@ -1,4 +1,4 @@
-package explore_with_me.services;
+package explore_with_me.services.adminServices;
 
 import explore_with_me.exeption.DataNotFound;
 import explore_with_me.models.user.NewUserRequest;

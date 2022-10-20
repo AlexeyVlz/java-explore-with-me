@@ -2,7 +2,7 @@ package explore_with_me.controllers.adminControllers;
 
 import explore_with_me.models.category.CategoryDto;
 import explore_with_me.models.category.NewCategoryDto;
-import explore_with_me.services.CategoryService;
+import explore_with_me.services.adminServices.AdminCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -17,29 +17,29 @@ import javax.validation.constraints.Positive;
 @Slf4j
 public class AdminCategoryController {
 
-    private final CategoryService categoryService;
+    private final AdminCategoryService adminCategoryService;
 
     @Autowired
-    public AdminCategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public AdminCategoryController(AdminCategoryService adminCategoryService) {
+        this.adminCategoryService = adminCategoryService;
     }
 
     @PostMapping
     public CategoryDto addNewCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {
         log.info("Получен запрос к эндпоинту: POST: /admin/categories; newCategoryDto = " + newCategoryDto);
-        return categoryService.addNewCategory(newCategoryDto);
+        return adminCategoryService.addNewCategory(newCategoryDto);
     }
 
     @PatchMapping
     public CategoryDto updateCategory(@RequestBody @Valid CategoryDto categoryDto) {
-        log.info("Получен запрос к эндпоинту: PATCH: /admin/categories; categoryDto = " + categoryDto);
+        log.info("Получен запрос к эндпоинту: PATCH: /admin/categories; category = " + categoryDto);
 
-        return categoryService.updateCategory(categoryDto);
+        return adminCategoryService.updateCategory(categoryDto);
     }
 
     @DeleteMapping("/{catId}")
     public void deleteCategory(@PathVariable @Positive Long catId) {
         log.info("Получен запрос к эндпоинту: DELETE: /admin/categories/{catId}; catId = " + catId);
-        categoryService.deleteCategory(catId);
+        adminCategoryService.deleteCategory(catId);
     }
 }

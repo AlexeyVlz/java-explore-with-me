@@ -25,13 +25,13 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    @Column(nullable = false)
+    @Column(name = "confirmed_requests", nullable = false)
     private Integer confirmedRequests;
-    @Column(nullable = false)
+    @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
     @Column(nullable = false)
     private String description;
-    @Column(nullable = false)
+    @Column(name = "event_date", nullable = false)
     private LocalDateTime eventDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -41,10 +41,11 @@ public class Event {
     private Location location;
     @Column(nullable = false)
     private Boolean paid;
-    @Column(nullable = false)
+    @Column(name = "participant_limit", nullable = false)
     private Integer participantLimit;
+    @Column(name = "published_on")
     private LocalDateTime publishedOn;
-    @Column(nullable = false)
+    @Column(name = "request_moderation", nullable = false)
     private Boolean requestModeration;
     @Column(nullable = false)
     private State state;

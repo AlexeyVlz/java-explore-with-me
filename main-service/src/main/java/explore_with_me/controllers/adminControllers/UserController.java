@@ -2,7 +2,7 @@ package explore_with_me.controllers.adminControllers;
 
 import explore_with_me.models.user.NewUserRequest;
 import explore_with_me.models.user.UserDto;
-import explore_with_me.services.UserService;
+import explore_with_me.services.adminServices.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

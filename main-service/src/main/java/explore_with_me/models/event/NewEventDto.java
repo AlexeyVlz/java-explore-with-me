@@ -1,6 +1,5 @@
 package explore_with_me.models.event;
 
-import explore_with_me.models.category.CategoryDto;
 import explore_with_me.models.location.Location;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -15,7 +14,7 @@ public class NewEventDto {
     @NotNull @Length(min = 20, max = 2000)
     private String annotation;
     @NotNull @Positive
-    private CategoryDto categoryDto;
+    private Long category;
     @NotNull @Length(min = 20, max = 7000)
     private String description;
     @NotNull @NotBlank

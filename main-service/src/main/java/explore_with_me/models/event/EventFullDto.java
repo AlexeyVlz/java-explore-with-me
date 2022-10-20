@@ -12,7 +12,7 @@ public class EventFullDto {
 
     private Long id;
     private String annotation;
-    private CategoryDto categoryDto;
+    private CategoryDto category;
     private Integer confirmedRequests;
     private String createdOn;
     private String description;
@@ -27,13 +27,13 @@ public class EventFullDto {
     private String title;
     private Integer views;
 
-    public EventFullDto(Long id, String annotation, CategoryDto categoryDto, Integer confirmedRequests,
+    public EventFullDto(Long id, String annotation, CategoryDto category, Integer confirmedRequests,
                         String createdOn, String description, String eventDate, UserShortDto initiator,
                         Location location, Boolean paid, Integer participantLimit, Boolean requestModeration,
                         State state, String title, Integer views) {
         this.id = id;
         this.annotation = annotation;
-        this.categoryDto = categoryDto;
+        this.category = category;
         this.confirmedRequests = confirmedRequests;
         this.createdOn = createdOn;
         this.description = description;
