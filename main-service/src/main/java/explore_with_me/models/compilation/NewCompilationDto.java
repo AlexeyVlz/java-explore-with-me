@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class NewCompilationDto {
 
-    List<Integer> events;
-    private boolean pinned;
+    List<Long> events;
+    private Boolean pinned;
     @NotNull @NotBlank
     private String title;
 }

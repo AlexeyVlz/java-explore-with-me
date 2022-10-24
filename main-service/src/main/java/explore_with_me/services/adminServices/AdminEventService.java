@@ -97,7 +97,11 @@ public class AdminEventService {
         return EventMapper.toEventFullDto(eventRepository.save(event));
     }
 
-    private Event findEventById(Long eventId) {
+    public List<Event> getEventsListById(List<Long> eventsId) {
+        return eventRepository.getEventsListById(eventsId);
+    }
+
+    public Event findEventById(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> new DataNotFound(
                 String.format("Событие с id %d в базе данных не обнаржено", eventId)));
     }

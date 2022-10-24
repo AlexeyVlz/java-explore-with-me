@@ -12,4 +12,6 @@ public interface CustomEventRepository {
     List<Event> findEventsByParam(PublicEventRestrictions restrictions, Pageable pageable);
 
     List<Event> adminGetEvents(AdminEventRestrictions restrictions, Pageable pageable);
+
+    List<Event> getEventsListById(List<Long> eventsId);
 }
