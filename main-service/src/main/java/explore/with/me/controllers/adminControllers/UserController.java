@@ -22,6 +22,7 @@ public class UserController {
 
 
     private final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -29,11 +30,11 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> getUsers(@RequestParam List<Long> ids,
-                                  @RequestParam (name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                  @RequestParam (name = "size", defaultValue = "10") @Positive Integer size){
+                                  @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                  @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: GET: /admin/users;  ids = %s, from = %s, size = %s", ids, from, size));
-        if(ids.size() == 0){
+        if (ids.size() == 0) {
             return new ArrayList<>();
         }
         return userService.getUsers(ids, from, size);
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable @Positive Long userId){
+    public void deleteUser(@PathVariable @Positive Long userId) {
         log.info("Получен запрос к эндпоинту: DELETE: /admin/users/{userId}; userId = " + userId);
         userService.deleteUser(userId);
     }

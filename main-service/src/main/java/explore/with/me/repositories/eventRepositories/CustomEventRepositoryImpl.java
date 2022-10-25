@@ -27,34 +27,34 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         var query = cb.createQuery(Event.class);
         Root<Event> eventRoot = query.from(Event.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(restrictions.getText() != null) {
+        if (restrictions.getText() != null) {
             predicates.add(cb.or(
-                    cb.like(cb.lower(eventRoot.get("annotation")), "%" + restrictions.getText().toLowerCase() + "%"),
-                    cb.like(cb.lower(eventRoot.get("description")), "%" + restrictions.getText().toLowerCase() + "%")
+                            cb.like(cb.lower(eventRoot.get("annotation")), "%" + restrictions.getText().toLowerCase() + "%"),
+                            cb.like(cb.lower(eventRoot.get("description")), "%" + restrictions.getText().toLowerCase() + "%")
                     )
             );
         }
-        if(restrictions.getCategories() != null && !restrictions.getCategories().isEmpty()) {
+        if (restrictions.getCategories() != null && !restrictions.getCategories().isEmpty()) {
             predicates.add(eventRoot.get("category").get("id").in(restrictions.getCategories()));
         }
-        if(restrictions.getPaid() != null) {
+        if (restrictions.getPaid() != null) {
             predicates.add(cb.equal(eventRoot.get("paid"), restrictions.getPaid()));
         }
-        if(restrictions.getRangeStart() != null && restrictions.getRangeEnd() != null) {
+        if (restrictions.getRangeStart() != null && restrictions.getRangeEnd() != null) {
             predicates.add(cb.between(eventRoot.get("eventDate"),
                     restrictions.getRangeStart(), restrictions.getRangeEnd()));
         } else {
             predicates.add(cb.greaterThanOrEqualTo(eventRoot.get("eventDate"), LocalDateTime.now()));
         }
-        if(restrictions.getOnlyAvailable()) {
+        if (restrictions.getOnlyAvailable()) {
             predicates.add(cb.greaterThan(eventRoot.get("participantLimit"), eventRoot.get("confirmedRequests")));
         }
-        if(restrictions.getSort() != null) {
+        if (restrictions.getSort() != null) {
             switch (restrictions.getSort()) {
-                case("EVENT_DATE"):
+                case ("EVENT_DATE"):
                     query.orderBy(cb.desc(eventRoot.get("eventDate")));
                     break;
-                case("VIEWS"):
+                case ("VIEWS"):
                     query.orderBy(cb.desc(eventRoot.get("views")));
             }
         }
@@ -62,21 +62,21 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         return em.createQuery(query).getResultList();
     }
 
-    public List<Event> adminGetEvents(AdminEventRestrictions restrictions, Pageable pageable){
+    public List<Event> adminGetEvents(AdminEventRestrictions restrictions, Pageable pageable) {
         var cb = em.getCriteriaBuilder();
         var query = cb.createQuery(Event.class);
         Root<Event> eventRoot = query.from(Event.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(restrictions.getUsers() != null && !restrictions.getUsers().isEmpty()){
+        if (restrictions.getUsers() != null && !restrictions.getUsers().isEmpty()) {
             predicates.add(eventRoot.get("initiator").get("id").in(restrictions.getUsers()));
         }
-        if(restrictions.getStates() != null && !restrictions.getStates().isEmpty()){
+        if (restrictions.getStates() != null && !restrictions.getStates().isEmpty()) {
             predicates.add(eventRoot.get("state").in(restrictions.getStates()));
         }
-        if(restrictions.getCategories() != null && !restrictions.getCategories().isEmpty()) {
+        if (restrictions.getCategories() != null && !restrictions.getCategories().isEmpty()) {
             predicates.add(eventRoot.get("category").get("id").in(restrictions.getCategories()));
         }
-        if(restrictions.getRangeStart() != null && restrictions.getRangeEnd() != null) {
+        if (restrictions.getRangeStart() != null && restrictions.getRangeEnd() != null) {
             predicates.add(cb.between(eventRoot.get("eventDate"),
                     restrictions.getRangeStart(), restrictions.getRangeEnd()));
         } else {
@@ -91,7 +91,7 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         var query = cb.createQuery(Event.class);
         Root<Event> eventRoot = query.from(Event.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(eventsId != null && !eventsId.isEmpty()) {
+        if (eventsId != null && !eventsId.isEmpty()) {
             predicates.add(eventRoot.get("id").in(eventsId));
         }
         query.where(predicates.toArray(new Predicate[0]));

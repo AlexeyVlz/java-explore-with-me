@@ -25,11 +25,11 @@ public class EventsClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> addStat(Hit hit){
+    public ResponseEntity<Object> addStat(Hit hit) {
         return post("/hit", hit);
     }
 
-    public ResponseEntity<Object> getStat(String start, String end, List<String> uris, Boolean unique){
+    public ResponseEntity<Object> getStat(String start, String end, List<String> uris, Boolean unique) {
         Map<String, Object> parameters = Map.of(
                 "start", start,
                 "end", end,

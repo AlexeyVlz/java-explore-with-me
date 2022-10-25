@@ -46,7 +46,7 @@ public class EventMapper {
                 event.getState(),
                 event.getTitle(),
                 event.getViews());
-        if(event.getPublishedOn() != null) {
+        if (event.getPublishedOn() != null) {
             eventFullDto.setPublishedOn(event.getPublishedOn().format(getFormatter()));
         }
         return eventFullDto;

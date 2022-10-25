@@ -45,7 +45,7 @@ public class PrivateEventService {
 
     public List<EventShortDto> getEventListByUserId(Long userId, Integer from, Integer size) {
         userService.getUserById(userId);
-        int page = from/size;
+        int page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
         List<Event> events = eventRepository.findAllByInitiatorId(userId, pageRequest);
         return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
@@ -53,31 +53,31 @@ public class PrivateEventService {
 
     public EventFullDto updateEvent(Long userId, UpdateEventRequest updateEventRequest) {
         Event event = findEventById(updateEventRequest.getEventId());
-        if(!event.getInitiator().getId().equals(userId)) {
+        if (!event.getInitiator().getId().equals(userId)) {
             throw new ConflictDataException("Изменить данные события может только пользователь, создавший его, " +
                     "либо администратор");
         }
-        if(updateEventRequest.getAnnotation() != null){
+        if (updateEventRequest.getAnnotation() != null) {
             event.setAnnotation(updateEventRequest.getAnnotation());
         }
-        if(updateEventRequest.getCategory() != null) {
+        if (updateEventRequest.getCategory() != null) {
             event.setCategory(CategoryMapper.toCategory(
                     publicCategoryService.getCategoryDtoById(updateEventRequest.getCategory())));
         }
-        if(updateEventRequest.getDescription() != null) {
+        if (updateEventRequest.getDescription() != null) {
             event.setDescription(updateEventRequest.getDescription());
         }
-        if(updateEventRequest.getEventDate() != null) {
+        if (updateEventRequest.getEventDate() != null) {
             event.setEventDate(LocalDateTime.parse(updateEventRequest.getEventDate(),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         }
-        if(updateEventRequest.getPaid() != null) {
+        if (updateEventRequest.getPaid() != null) {
             event.setPaid(updateEventRequest.getPaid());
         }
-        if(updateEventRequest.getParticipantLimit() != null) {
+        if (updateEventRequest.getParticipantLimit() != null) {
             event.setParticipantLimit(updateEventRequest.getParticipantLimit());
         }
-        if(updateEventRequest.getTitle() != null) {
+        if (updateEventRequest.getTitle() != null) {
             event.setTitle(updateEventRequest.getTitle());
         }
         return EventMapper.toEventFullDto(eventRepository.save(event));
@@ -104,7 +104,7 @@ public class PrivateEventService {
         String errorMessage = "Отменять событие может только его инициатр." +
                 "Id пользователя, запрашивающего данные не совпадает с id инициатора события";
         checkAccess(event.getInitiator().getId(), userId, errorMessage);
-        if(event.getState().equals(State.PENDING)){
+        if (event.getState().equals(State.PENDING)) {
             event.setState(State.CANCELED);
             eventRepository.save(event);
             return EventMapper.toEventFullDto(event);
@@ -125,7 +125,7 @@ public class PrivateEventService {
 
     public ParticipationRequestDto confirmOrRejectRequest(Long userId, Long eventId, Long reqId, boolean confirm) {
         Event event = findEventById(eventId);
-        if(!event.getRequestModeration()){
+        if (!event.getRequestModeration()) {
             throw new ConflictDataException("Заявки на участие в данном меропирятии не требуют подтверждения " +
                     "инициатора события. RequestModeration = false");
         }
@@ -148,7 +148,7 @@ public class PrivateEventService {
     }
 
     private void checkAccess(Long initiatorId, Long userId, String errorMessage) {
-        if(!Objects.equals(initiatorId, userId)) {
+        if (!Objects.equals(initiatorId, userId)) {
             throw new ConflictDataException(errorMessage);
         }
     }

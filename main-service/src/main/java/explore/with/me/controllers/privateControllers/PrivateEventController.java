@@ -31,8 +31,10 @@ public class PrivateEventController {
 
     @GetMapping
     public List<EventShortDto> getEventListByUserId(@PathVariable @Positive Long userId,
-                                        @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                        @RequestParam (name = "size", defaultValue = "10") @Positive Integer size) {
+                                                    @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero
+                                                    Integer from,
+                                                    @RequestParam(name = "size", defaultValue = "10") @Positive
+                                                    Integer size) {
         log.info("Получен запрос к эндпоинту: GET: /users/{userId}/events; userId = " + userId);
         return privateEventService.getEventListByUserId(userId, from, size);
     }
@@ -55,23 +57,23 @@ public class PrivateEventController {
     public EventFullDto getEventById(@PathVariable @Positive Long userId,
                                      @PathVariable @Positive Long eventId) {
         log.info(String.format(
-            "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}; userId = %d, eventId = %d"
-                    + userId, eventId));
+                "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}; userId = %d, eventId = %d"
+                        + userId, eventId));
         return privateEventService.getEventById(userId, eventId);
     }
 
     @PatchMapping("/{eventId}")
     public EventFullDto cancelEvent(@PathVariable @Positive Long userId,
-                                     @PathVariable @Positive Long eventId) {
+                                    @PathVariable @Positive Long eventId) {
         log.info(String.format(
-           "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}; userId = %d, eventId = %d"
-                   + userId, eventId));
+                "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}; userId = %d, eventId = %d"
+                        + userId, eventId));
         return privateEventService.cancelEvent(userId, eventId);
     }
 
     @GetMapping("/{eventId}/requests")
     public List<ParticipationRequestDto> getRequestsByEventId(@PathVariable @Positive Long userId,
-                                                        @PathVariable @Positive Long eventId) {
+                                                              @PathVariable @Positive Long eventId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}/requests; userId = %d, eventId = %d"
                         + userId, eventId));
@@ -84,17 +86,17 @@ public class PrivateEventController {
                                                   @PathVariable @Positive Long reqId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/requests/{reqId}/confirm; " +
-                        "userId = %d, eventId = %d, reqId = %d"+ userId, eventId, reqId));
+                        "userId = %d, eventId = %d, reqId = %d" + userId, eventId, reqId));
         return privateEventService.confirmOrRejectRequest(userId, eventId, reqId, true);
     }
 
     @PatchMapping("/{eventId}/requests/{reqId}/reject")
     public ParticipationRequestDto rejectRequest(@PathVariable @Positive Long userId,
-                                                  @PathVariable @Positive Long eventId,
-                                                  @PathVariable @Positive Long reqId) {
+                                                 @PathVariable @Positive Long eventId,
+                                                 @PathVariable @Positive Long reqId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/requests/{reqId}/confirm; " +
-                        "userId = %d, eventId = %d, reqId = %d"+ userId, eventId, reqId));
+                        "userId = %d, eventId = %d, reqId = %d" + userId, eventId, reqId));
         return privateEventService.confirmOrRejectRequest(userId, eventId, reqId, false);
     }
 }

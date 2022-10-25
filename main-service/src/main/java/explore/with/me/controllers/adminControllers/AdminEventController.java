@@ -34,12 +34,8 @@ public class AdminEventController {
                                              @RequestParam List<Long> categories,
                                              @RequestParam String rangeStart,
                                              @RequestParam String rangeEnd,
-                                             @RequestParam (name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                             @RequestParam (name = "size", defaultValue = "10") @Positive Integer size) {
-        /*log.info(String.format(
-                "Получен запрос к эндпоинту: GET: /admin/events; users = %s, states = %s, categories = %s, " +
-                        "rangeStart = %s, rangeEnd = %s, from = %d, size = %d"
-                        + users, states, categories, rangeStart, rangeEnd, from, size));*/
+                                             @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                             @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
         List<State> stateList = states.stream().map(State::valueOf).collect(Collectors.toList());
         AdminEventRestrictions restrictions = AdminEventRestrictions.builder()
                 .users(users)
@@ -56,19 +52,19 @@ public class AdminEventController {
     @PutMapping("/{eventId}")
     public EventFullDto updateEvent(@PathVariable @Positive Long eventId,
                                     @RequestBody AdminUpdateEventRequest request) {
-        log.info("Получен запрос к эндпоинту: PUT: /admin/events/{eventId}; eventId = "+ eventId);
+        log.info("Получен запрос к эндпоинту: PUT: /admin/events/{eventId}; eventId = " + eventId);
         return adminEventService.updateEvent(eventId, request);
     }
 
     @PatchMapping("/{eventId}/publish")
     public EventFullDto publishEvent(@PathVariable @Positive Long eventId) {
-        log.info("Получен запрос к эндпоинту: PATCH: /admin/events/{eventId}/publish; eventId = "+ eventId);
+        log.info("Получен запрос к эндпоинту: PATCH: /admin/events/{eventId}/publish; eventId = " + eventId);
         return adminEventService.publishEvent(eventId);
     }
 
     @PatchMapping("/{eventId}/reject")
     public EventFullDto rejectEvent(@PathVariable @Positive Long eventId) {
-        log.info("Получен запрос к эндпоинту: PATCH: /admin/events/{eventId}/reject; eventId = "+ eventId);
+        log.info("Получен запрос к эндпоинту: PATCH: /admin/events/{eventId}/reject; eventId = " + eventId);
         return adminEventService.rejectEvent(eventId);
     }
 }

@@ -33,7 +33,7 @@ public class AdminEventService {
     }
 
     public List<EventFullDto> adminGetEvents(AdminEventRestrictions restrictions) {
-        PageRequest pageRequest = PageRequest.of(restrictions.getFrom()/ restrictions.getSize(),
+        PageRequest pageRequest = PageRequest.of(restrictions.getFrom() / restrictions.getSize(),
                 restrictions.getSize());
         return eventRepository.adminGetEvents(restrictions, pageRequest)
                 .stream().map(EventMapper::toEventFullDto).collect(Collectors.toList());
@@ -41,32 +41,32 @@ public class AdminEventService {
 
     public EventFullDto updateEvent(Long eventId, AdminUpdateEventRequest request) {
         Event event = findEventById(eventId);
-        if(request.getAnnotation() != null){
+        if (request.getAnnotation() != null) {
             event.setAnnotation(request.getAnnotation());
         }
-        if(request.getCategory() != null) {
+        if (request.getCategory() != null) {
             event.setCategory(CategoryMapper.toCategory(publicCategoryService.getCategoryDtoById(request.getCategory())));
         }
-        if(request.getDescription() != null) {
+        if (request.getDescription() != null) {
             event.setDescription(request.getDescription());
         }
-        if(request.getEventDate() != null) {
+        if (request.getEventDate() != null) {
             event.setEventDate(LocalDateTime.parse(request.getEventDate(),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         }
-        if(request.getLocation() != null) {
+        if (request.getLocation() != null) {
             event.setLocation(request.getLocation());
         }
-        if(request.getPaid() != null) {
+        if (request.getPaid() != null) {
             event.setPaid(request.getPaid());
         }
-        if(request.getParticipantLimit() != null) {
+        if (request.getParticipantLimit() != null) {
             event.setParticipantLimit(request.getParticipantLimit());
         }
-        if(request.getRequestModeration() != null){
+        if (request.getRequestModeration() != null) {
             event.setRequestModeration(request.getRequestModeration());
         }
-        if(request.getTitle() != null) {
+        if (request.getTitle() != null) {
             event.setTitle(request.getTitle());
         }
         return EventMapper.toEventFullDto(eventRepository.save(event));
@@ -74,11 +74,11 @@ public class AdminEventService {
 
     public EventFullDto publishEvent(Long eventId) {
         Event event = findEventById(eventId);
-        if(!event.getState().equals(State.PENDING)){
+        if (!event.getState().equals(State.PENDING)) {
             throw new ConflictDataException(
                     "Событие должно находиться в статусе PENDING, статус данного события" + event.getState());
         }
-        if(event.getEventDate().minusHours(1).isBefore(LocalDateTime.now())){
+        if (event.getEventDate().minusHours(1).isBefore(LocalDateTime.now())) {
             throw new ConflictDataException("Событие должно начинаться не позднее, чем через час после публикации. " +
                     "Начало данного события " + event.getEventDate());
         }
@@ -89,7 +89,7 @@ public class AdminEventService {
 
     public EventFullDto rejectEvent(Long eventId) {
         Event event = findEventById(eventId);
-        if(event.getState().equals(State.PUBLISHED)){
+        if (event.getState().equals(State.PUBLISHED)) {
             throw new ConflictDataException(
                     "Событие не должно находиться в статусе PUBLISHED, статус данного события" + event.getState());
         }
@@ -105,7 +105,6 @@ public class AdminEventService {
         return eventRepository.findById(eventId).orElseThrow(() -> new DataNotFound(
                 String.format("Событие с id %d в базе данных не обнаржено", eventId)));
     }
-
 
 
 }

@@ -41,12 +41,12 @@ public class PrivateRequestService {
         User requester = userService.getUserById(userId);
         Event event = checkRequest(userId, eventId);
         Request request = new Request(LocalDateTime.now(), eventId, requester);
-        if(event.getRequestModeration()) {
+        if (event.getRequestModeration()) {
             request.setStatus(State.PENDING);
             return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
         } else {
-                request.setStatus(State.PUBLISHED);
-                return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
+            request.setStatus(State.PUBLISHED);
+            return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
         }
     }
 
@@ -58,8 +58,8 @@ public class PrivateRequestService {
         return RequestMapper.toParticipationRequestDto(request);
     }
 
-    private Event checkRequest(Long userId, Long eventId){
-        if(!requestRepository.findByEventAndRequester(userId, eventId).isEmpty()){
+    private Event checkRequest(Long userId, Long eventId) {
+        if (!requestRepository.findByEventAndRequester(userId, eventId).isEmpty()) {
             throw new ConflictDataException(String.format(
                     "Заявка на событие id = %d от пользователь id = %d уже подавалась.", eventId, userId));
         }
@@ -70,11 +70,11 @@ public class PrivateRequestService {
                             "Id пользователя подающего заявку - %d, id инициатора события - %d",
                     userId, event.getInitiator().getId()));
         }
-        if(!event.getState().equals(State.PUBLISHED)){
+        if (!event.getState().equals(State.PUBLISHED)) {
             throw new ConflictDataException(
                     "Нельзя подать заявку на неопубликованное событие. Статус события" + event.getState());
         }
-        if(event.getConfirmedRequests() >= event.getParticipantLimit()){
+        if (event.getConfirmedRequests() >= event.getParticipantLimit()) {
             throw new ConflictDataException(String.format(
                     "Лимит заявок на событие id = %d исчерпан. ConfirmedRequests =  %d, ParticipantLimit = %d",
                     eventId, event.getConfirmedRequests(), event.getParticipantLimit()));

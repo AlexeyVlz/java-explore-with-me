@@ -23,8 +23,8 @@ public class PrivateRequestController {
     }
 
     @GetMapping
-    public List<ParticipationRequestDto> getRequests(@PathVariable @Positive Long userId ) {
-        log.info("Получен запрос к эндпоинту: GET /users/{userId}/requests; userId = "+ userId);
+    public List<ParticipationRequestDto> getRequests(@PathVariable @Positive Long userId) {
+        log.info("Получен запрос к эндпоинту: GET /users/{userId}/requests; userId = " + userId);
         return privateRequestService.getRequests(userId);
     }
 
@@ -38,9 +38,9 @@ public class PrivateRequestController {
 
     @PatchMapping("/{requestId}/cancel")
     private ParticipationRequestDto deleteRequest(@PathVariable @Positive Long userId,
-                                                   @PathVariable @Positive Long requestId) {
+                                                  @PathVariable @Positive Long requestId) {
         log.info(String.format("Получен запрос к эндпоинту: PATCH /users/{userId}/requests/{requestId}/cancel; " +
-                        "userId = %d, requestId = %d", userId, requestId));
+                "userId = %d, requestId = %d", userId, requestId));
         return privateRequestService.deleteRequest(userId, requestId);
     }
 

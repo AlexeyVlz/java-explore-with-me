@@ -24,7 +24,7 @@ public class PublicCompilationService {
     }
 
     public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
-        PageRequest pageRequest = PageRequest.of(from/size, size, Sort.by("title"));
+        PageRequest pageRequest = PageRequest.of(from / size, size, Sort.by("title"));
         List<Compilation> compilations = compilationRepository.findAllWithPinned(pinned, pageRequest);
         return compilations.stream().map(CompilationMapper::toCompilationDto).collect(Collectors.toList());
     }

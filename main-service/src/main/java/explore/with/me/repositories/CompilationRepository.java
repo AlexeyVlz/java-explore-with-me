@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface CompilationRepository extends JpaRepository<Compilation, Long>, JpaSpecificationExecutor<Compilation> {
 
-    default List<Compilation> findAllWithPinned(Boolean pinned, PageRequest pageable){
+    default List<Compilation> findAllWithPinned(Boolean pinned, PageRequest pageable) {
         return findAll(specWithPinned(pinned, pageable));
     }
 
-    default Specification<Compilation> specWithPinned(Boolean pinned, PageRequest pageable){
+    default Specification<Compilation> specWithPinned(Boolean pinned, PageRequest pageable) {
         return ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("pinned"), pinned));
     }
 }

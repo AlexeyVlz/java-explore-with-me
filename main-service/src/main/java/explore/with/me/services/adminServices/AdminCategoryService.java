@@ -40,7 +40,7 @@ public class AdminCategoryService {
     public void deleteCategory(Long catId) {
         findCategory(catId);
         List<Event> events = publicEventService.getEventsByCategoryId(catId);
-        if(events.size() < 1) {
+        if (events.size() < 1) {
             throw new ConflictDataException(String.format("Категория, в которой есть события не может быть удалена. " +
                     "В категории с id = %d есть собыия со следующими id: %s", catId, events));
         }

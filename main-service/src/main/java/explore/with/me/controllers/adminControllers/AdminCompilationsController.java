@@ -42,9 +42,9 @@ public class AdminCompilationsController {
         compilationService.deleteEventInCompilation(compId, eventId);
     }
 
-    @PatchMapping ("/{compId}/events/{eventId}")
-    public void addEventInCompilation (@PathVariable @Positive Long compId,
-                                       @PathVariable @Positive Long eventId) {
+    @PatchMapping("/{compId}/events/{eventId}")
+    public void addEventInCompilation(@PathVariable @Positive Long compId,
+                                      @PathVariable @Positive Long eventId) {
         log.info(String.format("Получен запрос к эндпоинту: PATCH: /admin/compilations/{compId}/events/{eventId}; " +
                 "compId = %d, eventId = %d", compId, eventId));
         compilationService.addEventInCompilation(compId, eventId);

@@ -26,7 +26,7 @@ public class UserService {
     }
 
     public List<UserDto> getUsers(List<Long> ids, Integer from, Integer size) {
-        if(ids == null) {
+        if (ids == null) {
             int page = from / size;
             PageRequest pageRequest = PageRequest.of(page, size, Sort.by("name"));
             return userRepository.findAll(pageRequest).
@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public UserDto addUser(NewUserRequest newUserRequest) {
-        User user =  userRepository.save(UserMapper.toUser(newUserRequest, null));
+        User user = userRepository.save(UserMapper.toUser(newUserRequest, null));
         return UserMapper.toUserDto(user);
     }
 

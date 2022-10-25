@@ -26,7 +26,7 @@ public class AdminCompilationService {
 
     public CompilationDto addNewCompilation(NewCompilationDto newCompilationDto) {
         List<Event> events;
-        if(newCompilationDto.getEvents() == null || newCompilationDto.getEvents().isEmpty()){
+        if (newCompilationDto.getEvents() == null || newCompilationDto.getEvents().isEmpty()) {
             events = new ArrayList<>();
         } else {
             events = adminEventService.getEventsListById(newCompilationDto.getEvents());
@@ -48,8 +48,8 @@ public class AdminCompilationService {
 
     public void addEventInCompilation(Long compId, Long eventId) {
         Compilation compilation = getCompilationById(compId);
-        for(Event event : compilation.getEvents()) {
-            if(event.getId().intValue() == eventId.intValue()) {
+        for (Event event : compilation.getEvents()) {
+            if (event.getId().intValue() == eventId.intValue()) {
                 throw new ConflictDataException(String.format("Событие с id = %d в подборке id = %d уже существует",
                         eventId, compId));
             }
@@ -73,15 +73,15 @@ public class AdminCompilationService {
     private Compilation deleteEvent(Compilation compilation, Long eventId) {
         adminEventService.findEventById(eventId);
         int check = 0;
-        if(compilation.getEvents() != null) {
-            for (int i = compilation.getEvents().size() - 1; i >= 0 ; i--) {
+        if (compilation.getEvents() != null) {
+            for (int i = compilation.getEvents().size() - 1; i >= 0; i--) {
                 if (compilation.getEvents().get(i).getId().intValue() == eventId.intValue()) {
                     compilation.getEvents().remove(i);
                     check++;
                 }
             }
         }
-        if (check == 0){
+        if (check == 0) {
             throw new DataNotFound(String.format("Событие с id = %d в подбовке с id = %d не найдено",
                     eventId, compilation.getId()));
         }
@@ -92,7 +92,6 @@ public class AdminCompilationService {
         return compilationRepository.findById(compId).orElseThrow(() -> new DataNotFound(
                 "Подборка с id = %d в базе данных не обнаружена" + compId));
     }
-
 
 
 }
