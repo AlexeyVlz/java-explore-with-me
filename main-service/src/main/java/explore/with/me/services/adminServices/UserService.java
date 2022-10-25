@@ -29,11 +29,11 @@ public class UserService {
         if (ids == null) {
             int page = from / size;
             PageRequest pageRequest = PageRequest.of(page, size, Sort.by("name"));
-            return userRepository.findAll(pageRequest).
-                    stream().map(UserMapper::toUserDto).collect(Collectors.toList());
+            return userRepository.findAll(pageRequest)
+                    .stream().map(UserMapper::toUserDto).collect(Collectors.toList());
         } else {
-            return userRepository.findAllById(ids).
-                    stream().map(UserMapper::toUserDto).collect(Collectors.toList());
+            return userRepository.findAllById(ids)
+                    .stream().map(UserMapper::toUserDto).collect(Collectors.toList());
         }
     }
 
