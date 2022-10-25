@@ -2,6 +2,7 @@ package explore.with.me.client;
 
 import java.util.Map;
 
+import io.micrometer.core.lang.Nullable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,14 @@ public class BaseClient {
         return makeAndSendRequest(HttpMethod.POST, path, null, body);
     }
 
-    private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path, Map<String, Object> parameters, T body) {
-        HttpEntity<T> requestEntity = new HttpEntity<>(body);
-
+    private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path,
+                                                          @Nullable Map<String, Object> parameters, @Nullable T body) {
+        HttpEntity<T> requestEntity;
+        if (body != null) {
+            requestEntity = new HttpEntity<>(body);
+        } else {
+            requestEntity = new HttpEntity<>(null);
+        }
         ResponseEntity<Object> shareitServerResponse;
         try {
             if (parameters != null) {
