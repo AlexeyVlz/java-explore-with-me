@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -33,11 +34,12 @@ public class PublicEventController {
                                         @RequestParam Boolean onlyAvailable,
                                         @RequestParam String sort,
                                         @RequestParam (name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                        @RequestParam (name = "size", defaultValue = "10") @Positive Integer size) {
+                                        @RequestParam (name = "size", defaultValue = "10") @Positive Integer size,
+                                        HttpServletRequest request) {
         log.info(String.format("Получен запрос к эндпоинту: GET: /events; " +
                 "text = %s, categories = %s, paid = %s, rangeStart = %s, rangeEnd = %s, onlyAvailable = %s, " +
-                "sort = %s, from = %d, size = %d",
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size));
+                "sort = %s, from = %d, size = %d, httpServletRequest = %s",
+                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request));
         PublicEventRestrictions restrictions = PublicEventRestrictions.builder()
                 .text(text)
                 .categories(categories)
@@ -49,12 +51,12 @@ public class PublicEventController {
                 .from(from)
                 .size(size)
                 .build();
-        return publicEventService.getFilteredEvents(restrictions);
+        return publicEventService.getFilteredEvents(restrictions, request);
     }
 
     @GetMapping("/{id}")
-    public EventFullDto getEventById(@PathVariable @Positive Long id) {
+    public EventFullDto getEventById(@PathVariable @Positive Long id, HttpServletRequest request) {
         log.info("Получен запрос к эндпоинту: GET: /events/{id}; id = " + id);
-        return publicEventService.getEventById(id);
+        return publicEventService.getEventById(id, request);
     }
 }
