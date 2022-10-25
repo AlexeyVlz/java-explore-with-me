@@ -1,0 +1,71 @@
+package exploreWithMe.models.event;
+
+import exploreWithMe.models.State;
+import exploreWithMe.models.category.Category;
+import exploreWithMe.models.category.CategoryMapper;
+import exploreWithMe.models.user.User;
+import exploreWithMe.models.user.UserMapper;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class EventMapper {
+
+    public static Event toEvent(NewEventDto newEventDto, Category category, User initiator) {
+        LocalDateTime eventDate = LocalDateTime.parse(newEventDto.getEventDate(), getFormatter());
+        return new Event(newEventDto.getTitle(),
+                newEventDto.getAnnotation(),
+                category,
+                0,
+                LocalDateTime.now(),
+                newEventDto.getDescription(),
+                eventDate,
+                initiator,
+                newEventDto.getLocation(),
+                newEventDto.getPaid(),
+                newEventDto.getParticipantLimit(),
+                null,
+                newEventDto.getRequestModeration(),
+                State.PENDING,
+                0);
+    }
+
+    public static EventFullDto toEventFullDto(Event event) {
+        EventFullDto eventFullDto = new EventFullDto(event.getId(),
+                event.getAnnotation(),
+                CategoryMapper.toCategoryDto(event.getCategory()),
+                event.getConfirmedRequests(),
+                event.getCreatedOn().format(getFormatter()),
+                event.getDescription(),
+                event.getEventDate().format(getFormatter()),
+                UserMapper.toUserShortDto(event.getInitiator()),
+                event.getLocation(),
+                event.getPaid(),
+                event.getParticipantLimit(),
+                event.getRequestModeration(),
+                event.getState(),
+                event.getTitle(),
+                event.getViews());
+        if(event.getPublishedOn() != null) {
+            eventFullDto.setPublishedOn(event.getPublishedOn().format(getFormatter()));
+        }
+        return eventFullDto;
+    }
+
+    public static EventShortDto toEventShortDto(Event event) {
+        return new EventShortDto(event.getId(),
+                event.getAnnotation(),
+                CategoryMapper.toCategoryDto(event.getCategory()),
+                event.getConfirmedRequests(),
+                event.getDescription(),
+                event.getEventDate().format(getFormatter()),
+                UserMapper.toUserShortDto(event.getInitiator()),
+                event.getPaid(),
+                event.getTitle(),
+                event.getViews());
+    }
+
+    private static DateTimeFormatter getFormatter() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    }
+}
