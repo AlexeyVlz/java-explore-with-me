@@ -28,7 +28,7 @@ public class StatService {
         LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String urisString = String.join(",", uris);
         Long count;
-        if (unique == null || !unique){
+        if (unique == null || !unique) {
             count = statRepository.getStatWithoutUnique(urisString, startTime, endTime);
         } else {
             count = statRepository.getStatWithUnique(urisString, startTime, endTime);
