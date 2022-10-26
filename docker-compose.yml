@@ -21,7 +21,7 @@ services:
     environment:
       - POSTGRES_USER=Alexey
       - POSTGRES_PASSWORD=AlexeyVLZ
-      - POSTGRES_DB=exploreWithMeStat
+      - POSTGRES_DB=ExploreWithMeStat
 
   ewm-service:
     build: main-service
