@@ -5,6 +5,8 @@ import explore.with.me.model.ViewStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,6 +26,8 @@ public class StatService {
     }
 
     public List<ViewStats> getStat(String start, String end, List<String> uris, Boolean unique) {
+        start = URLDecoder.decode(start, StandardCharsets.UTF_8);
+        end = URLDecoder.decode(end, StandardCharsets.UTF_8);
         LocalDateTime startTime = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String urisString = String.join(",", uris);

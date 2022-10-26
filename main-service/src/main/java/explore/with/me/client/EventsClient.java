@@ -9,6 +9,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,8 @@ public class EventsClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getStat(String start, String end, List<String> uris, Boolean unique) {
+        start = URLEncoder.encode(start, StandardCharsets.UTF_8);
+        end = URLEncoder.encode(end, StandardCharsets.UTF_8);
         StringBuilder urisString = new StringBuilder();
         for (int i = 0; i < uris.size(); i++) {
             if (i < (uris.size() - 1)) {

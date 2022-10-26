@@ -31,9 +31,9 @@ public class Controller {
 
     @GetMapping("/stats")
     public List<ViewStats> getStat(@RequestParam @NotBlank String start,
-                             @RequestParam @NotBlank String end,
-                             @RequestParam @NotNull @NotBlank List<String> uris,
-                             @RequestParam Boolean unique) {
+                                   @RequestParam @NotBlank String end,
+                                   @RequestParam @NotNull @NotBlank List<String> uris,
+                                   @RequestParam Boolean unique) {
         log.info(String.format("Получен запрос к эндроинт GET /stats; start = %s, end = %s, uris = %s, unique = %s",
                 start, end, uris, unique));
         return service.getStat(start, end, uris, unique);
