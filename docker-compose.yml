@@ -9,7 +9,7 @@ services:
     depends_on:
       - stats-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/exploreWithMeStat
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ExploreWithMeStat
       - SPRING_DATASOURCE_USERNAME=Alexey
       - SPRING_DATASOURCE_PASSWORD=AlexeyVLZ
 
