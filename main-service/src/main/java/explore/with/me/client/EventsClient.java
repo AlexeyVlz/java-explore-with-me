@@ -30,12 +30,20 @@ public class EventsClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getStat(String start, String end, List<String> uris, Boolean unique) {
+        StringBuilder urisString = new StringBuilder();
+        for(int i = 0; i < uris.size(); i++) {
+            if(i < (uris.size() - 1)) {
+                urisString.append("uris").append(i + 1).append("=").append(uris.get(i)).append("&");
+            } else {
+                urisString.append("uris").append(i + 1).append("=").append(uris.get(i));
+            }
+        }
         Map<String, Object> parameters = Map.of(
                 "start", start,
                 "end", end,
-                "uris", uris,
-                "unique", unique
+                "unique", unique,
+                "uris", uris
         );
-        return get("/stats", parameters);
+        return get("/stats?start={start}&end={end}&unique={unique}&" + urisString, parameters);
     }
 }

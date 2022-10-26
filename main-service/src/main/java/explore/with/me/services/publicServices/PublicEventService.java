@@ -5,6 +5,7 @@ import explore.with.me.controllers.publicControllers.PublicEventRestrictions;
 import explore.with.me.exeption.DataNotFound;
 import explore.with.me.models.event.Event;
 import explore.with.me.models.event.EventMapper;
+import explore.with.me.models.event.EventShortDto;
 import explore.with.me.models.statistic.Hit;
 import explore.with.me.models.State;
 import explore.with.me.models.event.EventFullDto;
@@ -36,12 +37,12 @@ public class PublicEventService {
         return EventMapper.toEventFullDto(event);
     }
 
-    public List<EventFullDto> getFilteredEvents(PublicEventRestrictions restrictions, HttpServletRequest request) {
+    public List<EventShortDto> getFilteredEvents(PublicEventRestrictions restrictions, HttpServletRequest request) {
         addStat(request);
         PageRequest pageRequest = PageRequest.of(restrictions.getFrom() / restrictions.getSize(),
                                                     restrictions.getSize());
         return eventRepository.findEventsByParam(restrictions, pageRequest)
-                .stream().map(EventMapper::toEventFullDto).collect(Collectors.toList());
+                .stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
     }
 
     public List<Event> getEventsByCategoryId(Long categoryId) {

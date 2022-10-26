@@ -1,5 +1,6 @@
 package explore.with.me.controllers.publicControllers;
 
+import explore.with.me.models.event.EventShortDto;
 import explore.with.me.services.publicServices.PublicEventService;
 import explore.with.me.UtilClass;
 import explore.with.me.models.event.EventFullDto;
@@ -26,16 +27,16 @@ public class PublicEventController {
     }
 
     @GetMapping
-    public List<EventFullDto> getFilteredEvents(@RequestParam @NotBlank String text,
-                                        @RequestParam List<Long> categories,
-                                        @RequestParam Boolean paid,
-                                        @RequestParam String rangeStart,
-                                        @RequestParam String rangeEnd,
-                                        @RequestParam Boolean onlyAvailable,
-                                        @RequestParam String sort,
-                                        @RequestParam (name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                        @RequestParam (name = "size", defaultValue = "10") @Positive Integer size,
-                                        HttpServletRequest request) {
+    public List<EventShortDto> getFilteredEvents(@RequestParam @NotBlank String text,
+                                                 @RequestParam List<Long> categories,
+                                                 @RequestParam Boolean paid,
+                                                 @RequestParam String rangeStart,
+                                                 @RequestParam String rangeEnd,
+                                                 @RequestParam Boolean onlyAvailable,
+                                                 @RequestParam String sort,
+                                                 @RequestParam (name = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                                 @RequestParam (name = "size", defaultValue = "10") @Positive Integer size,
+                                                 HttpServletRequest request) {
         log.info(String.format("Получен запрос к эндпоинту: GET: /events; " +
                 "text = %s, categories = %s, paid = %s, rangeStart = %s, rangeEnd = %s, onlyAvailable = %s, " +
                 "sort = %s, from = %d, size = %d, httpServletRequest = %s",
