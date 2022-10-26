@@ -23,16 +23,16 @@ public class StatService {
         statRepository.save(endpointHit);
     }
 
-    public ViewStats getStat(String start, String end, List<String> uris, Boolean unique, String requestURI) {
+    public List<ViewStats> getStat(String start, String end, List<String> uris, Boolean unique) {
         LocalDateTime startTime = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String urisString = String.join(",", uris);
-        Long count;
+        List<ViewStats> views;
         if (unique == null || !unique) {
-            count = statRepository.getStatWithoutUnique(urisString, startTime, endTime);
+            views = statRepository.getStatWithoutUnique(urisString, startTime, endTime);
         } else {
-            count = statRepository.getStatWithUnique(urisString, startTime, endTime);
+            views = statRepository.getStatWithUnique(urisString, startTime, endTime);
         }
-        return new ViewStats("stat-service", requestURI, count);
+        return views;
     }
 }
