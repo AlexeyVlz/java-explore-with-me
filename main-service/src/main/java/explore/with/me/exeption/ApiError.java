@@ -1,14 +1,17 @@
 package explore.with.me.exeption;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class ApiError {
 
-    private final List<String> errors;
-    private final String message;
-    private final String reason;
-    private final String status;
-    private final String timestamp;
+    private List<String> errors;
+    private String message;
+    private String reason;
+    private String status;
+    private String timestamp;
 
     public ApiError(List<String> errors, String message, String reason, String status, String timestamp) {
         this.errors = errors;
@@ -16,5 +19,9 @@ public class ApiError {
         this.reason = reason;
         this.status = status;
         this.timestamp = timestamp;
+    }
+
+    public ApiError(String message) {
+        this.message = message;
     }
 }
