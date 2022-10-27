@@ -3,8 +3,6 @@ package explore.with.me.models.location;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @Data
 @Entity
@@ -12,13 +10,9 @@ import javax.validation.constraints.Positive;
 public class Location {
 
     @Id
-    @Column(name = "location_id", nullable = false)
+    @Column(name = "location_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @NotNull @Positive
-    @Column(nullable = false)
     private Double lat;
-    @NotNull @Positive
-    @Column(nullable = false)
     private Double lon;
 }
