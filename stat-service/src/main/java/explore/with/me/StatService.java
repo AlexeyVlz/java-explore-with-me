@@ -1,6 +1,7 @@
 package explore.with.me;
 
 import explore.with.me.model.EndpointHit;
+import explore.with.me.model.HitMapper;
 import explore.with.me.model.ViewStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class StatService {
     }
 
     public void hit(EndpointHit endpointHit) {
-        statRepository.save(endpointHit);
+        statRepository.save(HitMapper.toHit(endpointHit));
     }
 
     public List<ViewStats> getStat(String start, String end, List<String> uris, Boolean unique) {
