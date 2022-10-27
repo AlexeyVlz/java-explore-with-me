@@ -5,6 +5,7 @@ import explore.with.me.models.State;
 import explore.with.me.models.category.Category;
 import explore.with.me.models.category.CategoryMapper;
 import explore.with.me.models.event.*;
+import explore.with.me.models.request.RequestStatus;
 import explore.with.me.models.user.User;
 import explore.with.me.repositories.RequestRepository;
 import explore.with.me.services.adminServices.UserService;
@@ -135,9 +136,9 @@ public class PrivateEventService {
         Request request = requestRepository.findById(reqId).orElseThrow(() -> new DataNotFound(
                 String.format("Заявка с id %d в событии: \"%s\" не обнаружено", reqId, event.getTitle())));
         if (confirm) {
-            request.setStatus(State.PUBLISHED);
+            request.setStatus(RequestStatus.CONFIRMED);
         } else {
-            request.setStatus(State.CANCELED);
+            request.setStatus(RequestStatus.REJECTED);
         }
         return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
     }

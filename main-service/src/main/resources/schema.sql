@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS requests (
     created      TIMESTAMP NOT NULL,
     event_id     BIGINT NOT NULL,
     requester_id BIGINT NOT NULL,
-    status       VARCHAR(20) NOT NULL,
+    status       BIGINT NOT NULL,
     CONSTRAINT   pk_request PRIMARY KEY (request_id),
     CONSTRAINT   fk_request_on_events FOREIGN KEY (event_id) REFERENCES events(event_id),
     CONSTRAINT   fk_request_on_users FOREIGN KEY (request_id) REFERENCES users(user_id)

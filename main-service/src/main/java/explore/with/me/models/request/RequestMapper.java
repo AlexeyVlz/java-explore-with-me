@@ -1,6 +1,5 @@
 package explore.with.me.models.request;
 
-import explore.with.me.models.State;
 import explore.with.me.models.user.User;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,7 @@ public class RequestMapper {
         return new Request(LocalDateTime.parse(participationRequestDto.getCreated(), getFormatter()),
                 participationRequestDto.getEvent(),
                 requester,
-                State.valueOf(participationRequestDto.getStatus().toUpperCase()));
+                RequestStatus.valueOf(participationRequestDto.getStatus().toUpperCase()));
     }
 
     public static ParticipationRequestDto toParticipationRequestDto(Request request) {

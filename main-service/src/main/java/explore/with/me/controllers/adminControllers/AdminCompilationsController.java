@@ -4,6 +4,7 @@ import explore.with.me.models.compilation.CompilationDto;
 import explore.with.me.models.compilation.NewCompilationDto;
 import explore.with.me.services.adminServices.AdminCompilationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class AdminCompilationsController {
 
     private final AdminCompilationService compilationService;
 
+    @Autowired
     public AdminCompilationsController(AdminCompilationService compilationService) {
         this.compilationService = compilationService;
     }

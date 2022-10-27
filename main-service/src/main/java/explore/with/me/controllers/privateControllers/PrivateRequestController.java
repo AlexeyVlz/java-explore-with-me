@@ -3,6 +3,7 @@ package explore.with.me.controllers.privateControllers;
 import explore.with.me.models.request.ParticipationRequestDto;
 import explore.with.me.services.privateServices.PrivateRequestService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class PrivateRequestController {
     private final PrivateRequestService privateRequestService;
 
 
+    @Autowired
     public PrivateRequestController(PrivateRequestService privateRequestService) {
         this.privateRequestService = privateRequestService;
     }
@@ -37,11 +39,11 @@ public class PrivateRequestController {
     }
 
     @PatchMapping("/{requestId}/cancel")
-    private ParticipationRequestDto deleteRequest(@PathVariable @Positive Long userId,
+    private ParticipationRequestDto cancelRequest(@PathVariable @Positive Long userId,
                                                   @PathVariable @Positive Long requestId) {
         log.info(String.format("Получен запрос к эндпоинту: PATCH /users/{userId}/requests/{requestId}/cancel; " +
                 "userId = %d, requestId = %d", userId, requestId));
-        return privateRequestService.deleteRequest(userId, requestId);
+        return privateRequestService.cancelRequest(userId, requestId);
     }
 
 

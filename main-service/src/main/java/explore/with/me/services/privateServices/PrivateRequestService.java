@@ -2,6 +2,7 @@ package explore.with.me.services.privateServices;
 
 import explore.with.me.exeption.DataNotFound;
 import explore.with.me.models.event.Event;
+import explore.with.me.models.request.RequestStatus;
 import explore.with.me.models.user.User;
 import explore.with.me.services.adminServices.UserService;
 import explore.with.me.services.publicServices.PublicEventService;
@@ -42,20 +43,20 @@ public class PrivateRequestService {
         Event event = checkRequest(userId, eventId);
         Request request = new Request(LocalDateTime.now(), eventId, requester);
         if (event.getRequestModeration()) {
-            request.setStatus(State.PENDING);
+            request.setStatus(RequestStatus.PENDING);
             return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
         } else {
-            request.setStatus(State.PUBLISHED);
+            request.setStatus(RequestStatus.CONFIRMED);
             return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
         }
     }
 
-    public ParticipationRequestDto deleteRequest(Long userId, Long requestId) {
+    public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
         userService.getUserById(userId);
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new DataNotFound("Запрос на участие с id = %d в базе не обнаружен"));
-        requestRepository.deleteById(requestId);
-        return RequestMapper.toParticipationRequestDto(request);
+        request.setStatus(RequestStatus.CANCELED);
+        return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
     }
 
     private Event checkRequest(Long userId, Long eventId) {

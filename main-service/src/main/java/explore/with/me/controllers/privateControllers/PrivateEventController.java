@@ -57,8 +57,8 @@ public class PrivateEventController {
     public EventFullDto getEventById(@PathVariable @Positive Long userId,
                                      @PathVariable @Positive Long eventId) {
         log.info(String.format(
-                "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}; userId = %d, eventId = %d"
-                        + userId, eventId));
+                "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}; userId = %d, eventId = %d",
+                        userId, eventId));
         return privateEventService.getEventById(userId, eventId);
     }
 
@@ -66,8 +66,8 @@ public class PrivateEventController {
     public EventFullDto cancelEvent(@PathVariable @Positive Long userId,
                                     @PathVariable @Positive Long eventId) {
         log.info(String.format(
-                "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}; userId = %d, eventId = %d"
-                        + userId, eventId));
+                "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}; userId = %d, eventId = %d",
+                        userId, eventId));
         return privateEventService.cancelEvent(userId, eventId);
     }
 
@@ -75,8 +75,8 @@ public class PrivateEventController {
     public List<ParticipationRequestDto> getRequestsByEventId(@PathVariable @Positive Long userId,
                                                               @PathVariable @Positive Long eventId) {
         log.info(String.format(
-                "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}/requests; userId = %d, eventId = %d"
-                        + userId, eventId));
+                "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}/requests; userId = %d, eventId = %d",
+                        userId, eventId));
         return privateEventService.getRequestsByEventId(userId, eventId);
     }
 
@@ -86,7 +86,7 @@ public class PrivateEventController {
                                                   @PathVariable @Positive Long reqId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/requests/{reqId}/confirm; " +
-                        "userId = %d, eventId = %d, reqId = %d" + userId, eventId, reqId));
+                        "userId = %d, eventId = %d, reqId = %d", userId, eventId, reqId));
         return privateEventService.confirmOrRejectRequest(userId, eventId, reqId, true);
     }
 
@@ -96,7 +96,7 @@ public class PrivateEventController {
                                                  @PathVariable @Positive Long reqId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/requests/{reqId}/confirm; " +
-                        "userId = %d, eventId = %d, reqId = %d" + userId, eventId, reqId));
+                        "userId = %d, eventId = %d, reqId = %d", userId, eventId, reqId));
         return privateEventService.confirmOrRejectRequest(userId, eventId, reqId, false);
     }
 }

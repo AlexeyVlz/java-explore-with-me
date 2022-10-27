@@ -1,6 +1,5 @@
 package explore.with.me.models.request;
 
-import explore.with.me.models.State;
 import explore.with.me.models.user.User;
 import lombok.Data;
 
@@ -24,9 +23,9 @@ public class Request {
     @JoinColumn(name = "requester_id")
     private User requester;
     @Column(nullable = false)
-    private State status;
+    private RequestStatus status;
 
-    public Request(LocalDateTime created, Long eventId, User requester, State status) {
+    public Request(LocalDateTime created, Long eventId, User requester, RequestStatus status) {
         this.created = created;
         this.eventId = eventId;
         this.requester = requester;

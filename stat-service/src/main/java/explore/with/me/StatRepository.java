@@ -12,9 +12,9 @@ import java.util.List;
 public interface StatRepository extends JpaRepository<Hit, Long> {
 
     @Modifying
-    @Query("select e.app, e.uri, count(e) from Hit as e where e.uri in(?1) and e.timestamp >= ?2 " +
-            "and e.timestamp <= ?3 " +
-            "group by e.uri")
+    @Query("select h.app, h.uri, count(h.ip) from Hit as h where h.uri in(?1) and h.timestamp >= ?2 " +
+            "and h.timestamp <= ?3 " +
+            "group by h.uri")
     List<ViewStats> getStatWithoutUnique(String uris, LocalDateTime startTime, LocalDateTime endTime);
 
     @Modifying
