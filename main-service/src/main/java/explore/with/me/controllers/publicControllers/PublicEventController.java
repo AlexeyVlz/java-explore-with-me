@@ -5,18 +5,13 @@ import explore.with.me.services.publicServices.PublicEventService;
 import explore.with.me.UtilClass;
 import explore.with.me.models.event.EventFullDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/events")
-@Validated
 @Slf4j
 public class PublicEventController {
 
@@ -27,15 +22,15 @@ public class PublicEventController {
     }
 
     @GetMapping
-    public List<EventShortDto> getFilteredEvents(@RequestParam @NotBlank String text,
+    public List<EventShortDto> getFilteredEvents(@RequestParam String text,
                                                  @RequestParam List<Long> categories,
                                                  @RequestParam Boolean paid,
                                                  @RequestParam String rangeStart,
                                                  @RequestParam String rangeEnd,
                                                  @RequestParam Boolean onlyAvailable,
                                                  @RequestParam String sort,
-                                                 @RequestParam (name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                                 @RequestParam (name = "size", defaultValue = "10") @Positive Integer size,
+                                                 @RequestParam (name = "from", defaultValue = "0") Integer from,
+                                                 @RequestParam (name = "size", defaultValue = "10") Integer size,
                                                  HttpServletRequest request) {
         log.info(String.format("Получен запрос к эндпоинту: GET: /events; " +
                 "text = %s, categories = %s, paid = %s, rangeStart = %s, rangeEnd = %s, onlyAvailable = %s, " +
@@ -56,7 +51,7 @@ public class PublicEventController {
     }
 
     @GetMapping("/{id}")
-    public EventFullDto getEventById(@PathVariable @Positive Long id, HttpServletRequest request) {
+    public EventFullDto getEventById(@PathVariable Long id, HttpServletRequest request) {
         log.info("Получен запрос к эндпоинту: GET: /events/{id}; id = " + id);
         return publicEventService.getEventById(id, request);
     }
