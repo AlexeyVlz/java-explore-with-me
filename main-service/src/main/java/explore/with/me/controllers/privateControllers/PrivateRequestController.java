@@ -39,19 +39,10 @@ public class PrivateRequestController {
     }
 
     @PatchMapping("/{requestId}/cancel")
-    private ParticipationRequestDto cancelRequest(@PathVariable @Positive Long userId,
-                                                  @PathVariable @Positive Long requestId) {
+    public ParticipationRequestDto cancelRequest(@PathVariable @Positive Long userId,
+                                                 @PathVariable @Positive Long requestId) {
         log.info(String.format("Получен запрос к эндпоинту: PATCH /users/{userId}/requests/{requestId}/cancel; " +
                 "userId = %d, requestId = %d", userId, requestId));
-        //try {
-            return privateRequestService.cancelRequest(userId, requestId);
-        /*} catch (NullPointerException e) {
-            StringBuilder a = new StringBuilder();
-            for(StackTraceElement string : e.getStackTrace()){
-                a.append(string).append("\n");
-            }
-            log.info("StackTrace : " + a);
-            return null;
-        }*/
+        return privateRequestService.cancelRequest(userId, requestId);
     }
 }
