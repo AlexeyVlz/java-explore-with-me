@@ -1,25 +1,19 @@
 package explore.with.me;
 
 import explore.with.me.model.Hit;
-import explore.with.me.model.ViewStats;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface StatRepository extends JpaRepository<Hit, Long> {
 
-    @Modifying
-    @Query("select h.app, h.uri, count(h.ip) from Hit as h where h.uri in(?1) and h.timestamp >= ?2 " +
-            "and h.timestamp <= ?3 " +
-            "group by h.uri")
-    List<ViewStats> getStatWithoutUnique(String uris, LocalDateTime startTime, LocalDateTime endTime);
 
-    @Modifying
-    @Query("select e.app, e.uri, count(e) from Hit as e where e.uri in(?1) and e.timestamp >= ?2 " +
-            "and e.timestamp <= ?3 " +
-            "group by e.uri")
-    List<ViewStats> getStatWithUnique(String uris, LocalDateTime startTime, LocalDateTime endTime);
+    @Query("select count(h) from Hit as h where h.uri in(?1) and h.timestamp >= ?2 " +
+            "and h.timestamp <= ?3")
+    int getStatWithoutUnique(String uri, LocalDateTime startTime, LocalDateTime endTime);
+
+    @Query("select count(distinct h.ip) from Hit as h where h.uri in(?1) and h.timestamp >= ?2 " +
+            "and h.timestamp <= ?3")
+    int getStatWithUnique(String uris, LocalDateTime startTime, LocalDateTime endTime);
 }
