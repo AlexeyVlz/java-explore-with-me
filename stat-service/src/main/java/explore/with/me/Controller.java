@@ -33,12 +33,12 @@ public class Controller {
 
     @GetMapping("/stats")
     public ResponseEntity<Object> getStat(@RequestParam @NotBlank String start,
-                                   @RequestParam @NotBlank String end,
-                                   @RequestParam @NotNull  List<String> uris,
-                                   @RequestParam Boolean unique) {
+                                          @RequestParam @NotBlank String end,
+                                          @RequestParam @NotNull List<String> uris,
+                                          @RequestParam Boolean unique) {
         log.info(String.format("Получен запрос к эндроинт GET /stats; start = %s, end = %s, uris = %s, unique = %s",
                 start, end, uris, unique));
-        List<ViewStats> views= service.getStat(start, end, uris, unique);
+        List<ViewStats> views = service.getStat(start, end, uris, unique);
         return new ResponseEntity<>(views, HttpStatus.OK);
     }
 
