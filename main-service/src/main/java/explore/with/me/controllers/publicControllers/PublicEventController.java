@@ -50,6 +50,7 @@ public class PublicEventController {
                     .build();
             return publicEventService.getFilteredEvents(restrictions, request);
         } catch (Throwable e) {
+            System.out.println(e.getMessage());
             StringBuilder stringBuilder = new StringBuilder();
             for (StackTraceElement error : e.getStackTrace()) {
                 stringBuilder.append(error.toString()).append("\n");
@@ -65,6 +66,7 @@ public class PublicEventController {
         try {
             return publicEventService.getEventById(id, request);
         } catch (Throwable e) {
+            System.out.println(e.getMessage());
             StringBuilder stringBuilder = new StringBuilder();
             for (StackTraceElement error : e.getStackTrace()) {
                 stringBuilder.append(error.toString()).append("\n");
