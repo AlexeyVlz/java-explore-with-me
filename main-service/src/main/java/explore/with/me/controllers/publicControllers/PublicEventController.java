@@ -29,30 +29,48 @@ public class PublicEventController {
                                                  @RequestParam String rangeEnd,
                                                  @RequestParam Boolean onlyAvailable,
                                                  @RequestParam String sort,
-                                                 @RequestParam (name = "from", defaultValue = "0") Integer from,
-                                                 @RequestParam (name = "size", defaultValue = "10") Integer size,
+                                                 @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                                 @RequestParam(name = "size", defaultValue = "10") Integer size,
                                                  HttpServletRequest request) {
         log.info(String.format("Получен запрос к эндпоинту: GET: /events; " +
-                "text = %s, categories = %s, paid = %s, rangeStart = %s, rangeEnd = %s, onlyAvailable = %s, " +
-                "sort = %s, from = %d, size = %d, httpServletRequest = %s",
+                        "text = %s, categories = %s, paid = %s, rangeStart = %s, rangeEnd = %s, onlyAvailable = %s, " +
+                        "sort = %s, from = %d, size = %d, httpServletRequest = %s",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request));
-        PublicEventRestrictions restrictions = PublicEventRestrictions.builder()
-                .text(text)
-                .categories(categories)
-                .paid(paid)
-                .rangeStart(UtilClass.toLocalDateTime(rangeStart))
-                .rangeEnd(UtilClass.toLocalDateTime(rangeEnd))
-                .onlyAvailable(onlyAvailable)
-                .sort(sort)
-                .from(from)
-                .size(size)
-                .build();
-        return publicEventService.getFilteredEvents(restrictions, request);
+        try {
+            PublicEventRestrictions restrictions = PublicEventRestrictions.builder()
+                    .text(text)
+                    .categories(categories)
+                    .paid(paid)
+                    .rangeStart(UtilClass.toLocalDateTime(rangeStart))
+                    .rangeEnd(UtilClass.toLocalDateTime(rangeEnd))
+                    .onlyAvailable(onlyAvailable)
+                    .sort(sort)
+                    .from(from)
+                    .size(size)
+                    .build();
+            return publicEventService.getFilteredEvents(restrictions, request);
+        } catch (Throwable e) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (StackTraceElement error : e.getStackTrace()) {
+                stringBuilder.append(error.toString()).append("\n");
+            }
+            System.out.println(stringBuilder);
+        }
+        return null;
     }
 
     @GetMapping("/{id}")
     public EventFullDto getEventById(@PathVariable Long id, HttpServletRequest request) {
         log.info("Получен запрос к эндпоинту: GET: /events/{id}; id = " + id);
-        return publicEventService.getEventById(id, request);
+        try {
+            return publicEventService.getEventById(id, request);
+        } catch (Throwable e) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (StackTraceElement error : e.getStackTrace()) {
+                stringBuilder.append(error.toString()).append("\n");
+            }
+            System.out.println(stringBuilder);
+        }
+        return null;
     }
 }
