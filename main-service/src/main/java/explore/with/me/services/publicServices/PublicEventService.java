@@ -14,11 +14,8 @@ import explore.with.me.repositories.eventRepositories.EventRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -61,39 +58,17 @@ public class PublicEventService {
     }
 
     private void addStat(HttpServletRequest request) {
-        eventsClient.addStat(Hit.builder()
+        Hit hit = Hit.builder()
                 .app("ewm-main-service")
                 .uri(request.getRequestURI())
                 .ip(request.getRemoteAddr())
                 .timestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                .build()
-        );
+                .build();
+        eventsClient.saveStat(hit);
     }
 
     private Event addViews(Event event, List<String> uris) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        HttpEntity<Object> requestEntity = new HttpEntity<>(null, headers);
-        String start = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String end = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        start = URLEncoder.encode(start, StandardCharsets.UTF_8);
-        end = URLEncoder.encode(end, StandardCharsets.UTF_8);
-        StringBuilder urisBuilder = new StringBuilder();
-        for (int i = 0; i < uris.size(); i++) {
-            if (i < (uris.size() - 1)) {
-                urisBuilder.append("uris").append("=").append(uris.get(i)).append("&");
-            } else {
-                urisBuilder.append("uris").append("=").append(uris.get(i));
-            }
-        }
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Statistic[]> responseEntity = restTemplate.exchange(
-                "http://localhost:9090/stats?start=" + start + "&end=" + end + "&" + urisBuilder + "&unique=true",
-                HttpMethod.GET,
-                requestEntity,
-                Statistic[].class
-        );
+        ResponseEntity<Statistic[]> responseEntity = eventsClient.getStat(uris);
         Statistic[] stat = responseEntity.getBody();
         if (stat.length < 1) {
             event.setViews(0);

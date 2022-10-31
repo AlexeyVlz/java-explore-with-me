@@ -1,53 +1,61 @@
 package explore.with.me.client;
 
 import explore.with.me.models.statistic.Hit;
-import org.springframework.beans.factory.annotation.Autowired;
+import explore.with.me.models.statistic.Statistic;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Service
-public class EventsClient extends BaseClient {
+public class EventsClient {
 
-    @Autowired
-    public EventsClient(@Value("${stat-service.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
+    @Value("${stat-service.url}")
+    private String baseUri;
+
+    public void saveStat(Hit hit) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Object> requestEntity = new HttpEntity<>(hit, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.exchange(
+                baseUri + "/hit",
+                HttpMethod.POST,
+                requestEntity,
+                Object.class
         );
     }
 
-    public ResponseEntity<Object> addStat(Hit hit) {
-        return post("/hit", hit);
-    }
-
-    public ResponseEntity<Object> getStat(String start, String end, List<String> uris, Boolean unique) {
+    public ResponseEntity<Statistic[]> getStat(List<String> uris) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<Object> requestEntity = new HttpEntity<>(null, headers);
+        String start = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String end = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         start = URLEncoder.encode(start, StandardCharsets.UTF_8);
         end = URLEncoder.encode(end, StandardCharsets.UTF_8);
-        StringBuilder urisString = new StringBuilder();
+        StringBuilder urisBuilder = new StringBuilder();
         for (int i = 0; i < uris.size(); i++) {
             if (i < (uris.size() - 1)) {
-                urisString.append("uris").append(i + 1).append("=").append(uris.get(i)).append("&");
+                urisBuilder.append("uris").append("=").append(uris.get(i)).append("&");
             } else {
-                urisString.append("uris").append(i + 1).append("=").append(uris.get(i));
+                urisBuilder.append("uris").append("=").append(uris.get(i));
             }
         }
-        Map<String, Object> parameters = Map.of(
-                "start", start,
-                "end", end,
-                "unique", unique,
-                "uris", uris
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(
+                baseUri + "/stats?start=" + start + "&end=" + end + "&" + urisBuilder + "&unique=true",
+                HttpMethod.GET,
+                requestEntity,
+                Statistic[].class
         );
-        return get("/stats?start={start}&end={end}&unique={unique}&" + urisString, parameters);
     }
 }
