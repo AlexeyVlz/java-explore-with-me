@@ -89,7 +89,9 @@ public class PrivateEventService {
         Category category = publicCategoryService.findCategoryById(newEventDto.getCategory());
         newEventDto.setLocation(locationRepository.save(newEventDto.getLocation()));
         Event event = EventMapper.toEvent(newEventDto, category, initiator);
-        return EventMapper.toEventFullDto(eventRepository.save(event));
+        event = eventRepository.save(event);
+        event.setViews(0);
+        return EventMapper.toEventFullDto(event);
     }
 
     public EventFullDto getEventById(Long userId, Long eventId) {

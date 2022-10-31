@@ -1,11 +1,17 @@
 package explore.with.me.models.statistic;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+
 
 @AllArgsConstructor
-public class ViewStats {
+@Data
+public class Statistic {
 
     String app;
     String uri;
-    Long hits;
+    Integer hits;
+
+    public Statistic() {
+    }
 }
