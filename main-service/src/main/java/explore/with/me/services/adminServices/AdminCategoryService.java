@@ -9,22 +9,17 @@ import explore.with.me.exeption.ConflictDataException;
 import explore.with.me.models.category.CategoryDto;
 import explore.with.me.models.category.NewCategoryDto;
 import explore.with.me.services.publicServices.PublicEventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminCategoryService {
 
     private final CategoryRepository categoryRepository;
     private final PublicEventService publicEventService;
-
-    @Autowired
-    public AdminCategoryService(CategoryRepository categoryRepository, PublicEventService publicEventService) {
-        this.categoryRepository = categoryRepository;
-        this.publicEventService = publicEventService;
-    }
 
     public CategoryDto addNewCategory(NewCategoryDto newCategoryDto) {
         Category category = categoryRepository.save(CategoryMapper.toCategory(newCategoryDto));

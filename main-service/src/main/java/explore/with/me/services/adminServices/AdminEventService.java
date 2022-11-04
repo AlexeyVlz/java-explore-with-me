@@ -11,7 +11,7 @@ import explore.with.me.models.event.AdminUpdateEventRequest;
 import explore.with.me.models.event.EventFullDto;
 import explore.with.me.repositories.eventRepositories.EventRepository;
 import explore.with.me.services.publicServices.PublicCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +21,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AdminEventService {
 
     private final EventRepository eventRepository;
     private final PublicCategoryService publicCategoryService;
-
-    @Autowired
-    public AdminEventService(EventRepository eventRepository, PublicCategoryService publicCategoryService) {
-        this.eventRepository = eventRepository;
-        this.publicCategoryService = publicCategoryService;
-    }
 
     public List<EventFullDto> adminGetEvents(AdminEventRestrictions restrictions) {
         PageRequest pageRequest = PageRequest.of(restrictions.getFrom() / restrictions.getSize(),

@@ -2,8 +2,8 @@ package explore.with.me.controllers.publicControllers;
 
 import explore.with.me.models.category.CategoryDto;
 import explore.with.me.services.publicServices.PublicCategoryService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +15,10 @@ import java.util.List;
 @RequestMapping(path = "/categories")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class PublicCategoryController {
 
     private final PublicCategoryService publicCategoryService;
-
-    @Autowired
-    public PublicCategoryController(PublicCategoryService publicCategoryService) {
-        this.publicCategoryService = publicCategoryService;
-    }
 
     @GetMapping
     public List<CategoryDto> getCategories(@RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,

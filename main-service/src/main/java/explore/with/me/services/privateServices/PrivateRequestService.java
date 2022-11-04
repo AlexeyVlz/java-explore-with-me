@@ -12,6 +12,7 @@ import explore.with.me.models.request.ParticipationRequestDto;
 import explore.with.me.models.request.Request;
 import explore.with.me.models.request.RequestMapper;
 import explore.with.me.repositories.RequestRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,18 +20,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PrivateRequestService {
 
     private final RequestRepository requestRepository;
     private final UserService userService;
     private final PublicEventService publicEventService;
-
-
-    public PrivateRequestService(RequestRepository requestRepository, UserService userService, PublicEventService publicEventService) {
-        this.requestRepository = requestRepository;
-        this.userService = userService;
-        this.publicEventService = publicEventService;
-    }
 
     public List<ParticipationRequestDto> getRequests(Long userId) {
         userService.getUserById(userId);

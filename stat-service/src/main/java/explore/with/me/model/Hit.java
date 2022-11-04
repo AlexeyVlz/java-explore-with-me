@@ -14,8 +14,11 @@ public class Hit {
     @Column(name = "statistic_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 512)
     private String app;
+    @Column(length = 512)
     private String uri;
+    @Column(length = 64)
     private String ip;
     @Column(name = "timestamp_statistic")
     private LocalDateTime timestamp;

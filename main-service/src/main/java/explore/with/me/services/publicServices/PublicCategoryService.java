@@ -5,7 +5,7 @@ import explore.with.me.models.category.Category;
 import explore.with.me.models.category.CategoryMapper;
 import explore.with.me.repositories.CategoryRepository;
 import explore.with.me.models.category.CategoryDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,14 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PublicCategoryService {
 
     private final CategoryRepository categoryRepository;
-
-    @Autowired
-    public PublicCategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public List<CategoryDto> getCategories(Integer from, Integer size) {
         int page = from / size;

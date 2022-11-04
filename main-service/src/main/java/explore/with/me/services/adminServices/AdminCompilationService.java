@@ -8,21 +8,18 @@ import explore.with.me.models.compilation.CompilationMapper;
 import explore.with.me.models.compilation.NewCompilationDto;
 import explore.with.me.models.event.Event;
 import explore.with.me.repositories.CompilationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminCompilationService {
 
     private final CompilationRepository compilationRepository;
     private final AdminEventService adminEventService;
-
-    public AdminCompilationService(CompilationRepository compilationRepository, AdminEventService adminEventService) {
-        this.compilationRepository = compilationRepository;
-        this.adminEventService = adminEventService;
-    }
 
     public CompilationDto addNewCompilation(NewCompilationDto newCompilationDto) {
         List<Event> events;

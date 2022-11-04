@@ -2,20 +2,20 @@ package explore.with.me.controllers.adminControllers;
 
 import explore.with.me.models.State;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
-@Data
+@Getter
 public class AdminEventRestrictions {
 
-    List<Long> users;
-    List<State> states;
-    List<Long> categories;
-    LocalDateTime rangeStart;
-    LocalDateTime rangeEnd;
-    Integer from;
-    Integer size;
+    private List<Long> users;
+    private List<State> states;
+    private List<Long> categories;
+    private LocalDateTime rangeStart;
+    private LocalDateTime rangeEnd;
+    private Integer from;
+    private Integer size;
 }

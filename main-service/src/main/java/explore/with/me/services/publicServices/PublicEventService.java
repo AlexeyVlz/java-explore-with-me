@@ -11,6 +11,7 @@ import explore.with.me.models.State;
 import explore.with.me.models.event.EventFullDto;
 import explore.with.me.models.statistic.Statistic;
 import explore.with.me.repositories.eventRepositories.EventRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PublicEventService {
 
     private final EventRepository eventRepository;
     private final EventsClient eventsClient;
-
-    public PublicEventService(EventRepository eventRepository, EventsClient eventsClient) {
-        this.eventRepository = eventRepository;
-        this.eventsClient = eventsClient;
-    }
 
     public EventFullDto getEventById(Long id, HttpServletRequest request) {
         addStat(request);

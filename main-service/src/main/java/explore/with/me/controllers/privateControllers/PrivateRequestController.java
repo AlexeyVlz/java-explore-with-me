@@ -2,8 +2,8 @@ package explore.with.me.controllers.privateControllers;
 
 import explore.with.me.models.request.ParticipationRequestDto;
 import explore.with.me.services.privateServices.PrivateRequestService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +14,10 @@ import java.util.List;
 @RequestMapping(path = "/users/{userId}/requests")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class PrivateRequestController {
 
     private final PrivateRequestService privateRequestService;
-
-
-    @Autowired
-    public PrivateRequestController(PrivateRequestService privateRequestService) {
-        this.privateRequestService = privateRequestService;
-    }
 
     @GetMapping
     public List<ParticipationRequestDto> getRequests(@PathVariable @Positive Long userId) {

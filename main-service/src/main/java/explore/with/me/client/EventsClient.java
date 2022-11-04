@@ -1,5 +1,6 @@
 package explore.with.me.client;
 
+import explore.with.me.UtilClass;
 import explore.with.me.models.statistic.Hit;
 import explore.with.me.models.statistic.Statistic;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -38,8 +38,8 @@ public class EventsClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<Object> requestEntity = new HttpEntity<>(null, headers);
-        String start = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String end = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String start = LocalDateTime.now().format(UtilClass.getFormat());
+        String end = LocalDateTime.now().format(UtilClass.getFormat());
         start = URLEncoder.encode(start, StandardCharsets.UTF_8);
         end = URLEncoder.encode(end, StandardCharsets.UTF_8);
         StringBuilder urisBuilder = new StringBuilder();

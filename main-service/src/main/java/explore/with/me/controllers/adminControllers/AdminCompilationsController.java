@@ -3,8 +3,8 @@ package explore.with.me.controllers.adminControllers;
 import explore.with.me.models.compilation.CompilationDto;
 import explore.with.me.models.compilation.NewCompilationDto;
 import explore.with.me.services.adminServices.AdminCompilationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +15,10 @@ import javax.validation.constraints.Positive;
 @RequestMapping(path = "/admin/compilations")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class AdminCompilationsController {
 
     private final AdminCompilationService compilationService;
-
-    @Autowired
-    public AdminCompilationsController(AdminCompilationService compilationService) {
-        this.compilationService = compilationService;
-    }
 
     @PostMapping
     public CompilationDto addNewCompilation(@RequestBody @Valid NewCompilationDto newCompilationDto) {

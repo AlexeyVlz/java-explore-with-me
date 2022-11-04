@@ -11,11 +11,11 @@ import javax.validation.constraints.Positive;
 @Data
 public class NewEventDto {
 
-    @NotNull @Length(min = 20, max = 2000)
+    @NotNull @Length(max = 1000)
     private String annotation;
     @NotNull @Positive
     private Long category;
-    @NotNull @Length(min = 20, max = 7000)
+    @NotNull @Length(max = 2000)
     private String description;
     @NotNull @NotBlank
     private String eventDate;
@@ -24,6 +24,6 @@ public class NewEventDto {
     private Boolean paid;
     private Integer participantLimit;
     private Boolean requestModeration;
-    @NotNull @Length(min = 3, max = 120)
+    @NotNull @Length(max = 255)
     private String title;
 }

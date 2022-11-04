@@ -16,6 +16,7 @@ import explore.with.me.models.request.Request;
 import explore.with.me.models.request.RequestMapper;
 import explore.with.me.repositories.LocationRepository;
 import explore.with.me.repositories.eventRepositories.EventRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -26,23 +27,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PrivateEventService {
 
     private final UserService userService;
     private final EventRepository eventRepository;
-
     private final PublicCategoryService publicCategoryService;
     private final RequestRepository requestRepository;
     private final LocationRepository locationRepository;
-
-    public PrivateEventService(UserService userService, EventRepository eventRepository,
-                               PublicCategoryService publicCategoryService, RequestRepository requestRepository, LocationRepository locationRepository) {
-        this.userService = userService;
-        this.eventRepository = eventRepository;
-        this.publicCategoryService = publicCategoryService;
-        this.requestRepository = requestRepository;
-        this.locationRepository = locationRepository;
-    }
 
     public List<EventShortDto> getEventListByUserId(Long userId, Integer from, Integer size) {
         userService.getUserById(userId);

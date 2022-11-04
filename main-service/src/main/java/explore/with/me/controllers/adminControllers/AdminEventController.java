@@ -5,8 +5,8 @@ import explore.with.me.services.adminServices.AdminEventService;
 import explore.with.me.UtilClass;
 import explore.with.me.models.event.AdminUpdateEventRequest;
 import explore.with.me.models.event.EventFullDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +19,10 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/admin/events")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class AdminEventController {
 
     private final AdminEventService adminEventService;
-
-    @Autowired
-    public AdminEventController(AdminEventService adminEventService) {
-        this.adminEventService = adminEventService;
-    }
 
     @GetMapping
     public List<EventFullDto> adminGetEvents(@RequestParam List<Long> users,

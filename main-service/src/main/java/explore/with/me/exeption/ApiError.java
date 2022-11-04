@@ -13,15 +13,14 @@ public class ApiError {
     private String status;
     private String timestamp;
 
-    public ApiError(List<String> errors, String message, String reason, String status, String timestamp) {
-        this.errors = errors;
-        this.message = message;
-        this.reason = reason;
-        this.status = status;
-        this.timestamp = timestamp;
-    }
-
     public ApiError(String message) {
         this.message = message;
+    }
+
+    public ApiError(List<String> errors, String message, String status, String timestamp) {
+        this.errors = errors;
+        this.message = message;
+        this.status = status;
+        this.timestamp = timestamp;
     }
 }

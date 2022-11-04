@@ -6,7 +6,7 @@ import explore.with.me.repositories.UserRepository;
 import explore.with.me.models.user.NewUserRequest;
 import explore.with.me.models.user.User;
 import explore.with.me.models.user.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public List<UserDto> getUsers(List<Long> ids, Integer from, Integer size) {
         if (ids == null) {

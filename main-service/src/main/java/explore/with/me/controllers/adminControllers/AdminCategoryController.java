@@ -3,8 +3,8 @@ package explore.with.me.controllers.adminControllers;
 import explore.with.me.models.category.CategoryDto;
 import explore.with.me.models.category.NewCategoryDto;
 import explore.with.me.services.adminServices.AdminCategoryService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +15,10 @@ import javax.validation.constraints.Positive;
 @RequestMapping(path = "/admin/categories")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class AdminCategoryController {
 
     private final AdminCategoryService adminCategoryService;
-
-    @Autowired
-    public AdminCategoryController(AdminCategoryService adminCategoryService) {
-        this.adminCategoryService = adminCategoryService;
-    }
 
     @PostMapping
     public CategoryDto addNewCategory(@RequestBody @Valid NewCategoryDto newCategoryDto) {

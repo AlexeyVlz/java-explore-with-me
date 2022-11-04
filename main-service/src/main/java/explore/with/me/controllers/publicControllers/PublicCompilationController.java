@@ -2,8 +2,8 @@ package explore.with.me.controllers.publicControllers;
 
 import explore.with.me.models.compilation.CompilationDto;
 import explore.with.me.services.publicServices.PublicCompilationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +15,10 @@ import java.util.List;
 @RequestMapping(path = "/compilations")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class PublicCompilationController {
 
     private final PublicCompilationService publicCompilationService;
-
-    @Autowired
-    public PublicCompilationController(PublicCompilationService publicCompilationService) {
-        this.publicCompilationService = publicCompilationService;
-    }
 
     @GetMapping
     public List<CompilationDto> getCompilations(@RequestParam (required = false)Boolean pinned,

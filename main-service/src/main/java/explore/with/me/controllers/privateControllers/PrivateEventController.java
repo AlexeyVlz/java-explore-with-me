@@ -6,8 +6,8 @@ import explore.with.me.models.event.NewEventDto;
 import explore.with.me.models.event.UpdateEventRequest;
 import explore.with.me.models.request.ParticipationRequestDto;
 import explore.with.me.services.privateServices.PrivateEventService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +20,10 @@ import java.util.List;
 @RequestMapping(path = "/users/{userId}/events")
 @Validated
 @Slf4j
+@RequiredArgsConstructor
 public class PrivateEventController {
 
     private final PrivateEventService privateEventService;
-
-    @Autowired
-    public PrivateEventController(PrivateEventService privateEventService) {
-        this.privateEventService = privateEventService;
-    }
 
     @GetMapping
     public List<EventShortDto> getEventListByUserId(@PathVariable @Positive Long userId,
