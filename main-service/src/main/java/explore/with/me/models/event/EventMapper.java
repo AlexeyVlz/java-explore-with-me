@@ -45,7 +45,9 @@ public class EventMapper {
                 event.getRequestModeration(),
                 event.getState(),
                 event.getTitle(),
-                event.getViews());
+                event.getViews(),
+                event.getLikeCount(),
+                event.getDislikeCount());
         if (event.getPublishedOn() != null) {
             eventFullDto.setPublishedOn(event.getPublishedOn().format(UtilClass.getFormat()));
         }
@@ -62,6 +64,8 @@ public class EventMapper {
                 UserMapper.toUserShortDto(event.getInitiator()),
                 event.getPaid(),
                 event.getTitle(),
-                event.getViews());
+                event.getViews(),
+                event.getLikeCount(),
+                event.getDislikeCount());
     }
 }

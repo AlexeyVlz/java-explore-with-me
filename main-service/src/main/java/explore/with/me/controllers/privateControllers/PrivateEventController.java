@@ -1,9 +1,6 @@
 package explore.with.me.controllers.privateControllers;
 
-import explore.with.me.models.event.EventFullDto;
-import explore.with.me.models.event.EventShortDto;
-import explore.with.me.models.event.NewEventDto;
-import explore.with.me.models.event.UpdateEventRequest;
+import explore.with.me.models.event.*;
 import explore.with.me.models.request.ParticipationRequestDto;
 import explore.with.me.services.privateServices.PrivateEventService;
 import lombok.RequiredArgsConstructor;
@@ -94,5 +91,17 @@ public class PrivateEventController {
                 "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/requests/{reqId}/confirm; " +
                         "userId = %d, eventId = %d, reqId = %d", userId, eventId, reqId));
         return privateEventService.confirmOrRejectRequest(userId, eventId, reqId, false);
+    }
+
+    @PatchMapping("/{eventId}/like")
+    public EventFullDto addLikeOrDislike(@PathVariable @Positive Long userId,
+                                 @PathVariable @Positive Long eventId,
+                                 @RequestParam Boolean isLike) {
+        log.info(String.format("Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/like; " +
+                "userId = %d, eventId = %d, isLike = %s", userId, eventId, isLike));
+        EventFullDto event = privateEventService.addLikeOrDislike(userId, eventId, isLike);
+        log.info(String.format("Возвращено событие с лайками = %d и дизлайками = %d: ",
+                event.getLikeCount(), event.getDislikeCount()));
+        return event;
     }
 }

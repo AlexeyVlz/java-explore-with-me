@@ -51,6 +51,10 @@ public class Event {
     private State state;
     @Transient
     private Integer views;
+    @Column(name = "like_count", nullable = false)
+    private Long likeCount;
+    @Column(name = "dislike_count", nullable = false)
+    private Long dislikeCount;
 
     public Event(String title, String annotation, Category category, Integer confirmedRequests, LocalDateTime createdOn,
                  String description, LocalDateTime eventDate, User initiator, Location location, Boolean paid,

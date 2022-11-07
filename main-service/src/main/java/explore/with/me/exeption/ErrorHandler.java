@@ -18,8 +18,15 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleDataNotFound(final DataNotFound e) {
-        log.info("Возвращена ошибка: \n" + e);
-        return new ApiError(e.getMessage());
+        ApiError apiError = new ApiError(List.of(Arrays.toString(e.getStackTrace())),
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.toString(),
+                LocalDateTime.now().toString());
+        if (e.getCause() != null) {
+            apiError.setReason(e.getCause().toString());
+        }
+        log.info("Возвращена ошибка: \n" + apiError);
+        return apiError;
     }
 
     @ExceptionHandler
