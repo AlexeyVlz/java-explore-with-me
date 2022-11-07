@@ -10,7 +10,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,19 +31,10 @@ public class StatService {
         end = URLDecoder.decode(end, StandardCharsets.UTF_8);
         LocalDateTime startTime = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endTime = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        List<ViewStats> views = new ArrayList<>();
-        for (String uri : uris) {
-            if (unique) {
-                views.add(new ViewStats("ewm-main-service", uri,
-                        statRepository.getStatWithUnique(uri, startTime, endTime)));
-            } else {
-                views.add(new ViewStats("ewm-main-service", uri,
-                        statRepository.getStatWithoutUnique(uri, startTime, endTime)));
-            }
-
+        if (unique) {
+            return statRepository.getUniqueViews(startTime, endTime, uris);
+        } else {
+            return statRepository.getNotUniqueViews(startTime, endTime, uris);
         }
-        return views;
     }
-
-
 }

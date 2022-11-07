@@ -50,12 +50,8 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
             predicates.add(cb.greaterThan(eventRoot.get("participantLimit"), eventRoot.get("confirmedRequests")));
         }
         if (restrictions.getSort() != null) {
-            switch (restrictions.getSort()) {
-                case ("EVENT_DATE"):
-                    query.orderBy(cb.desc(eventRoot.get("eventDate")));
-                    break;
-                case ("VIEWS"):
-                    query.orderBy(cb.desc(eventRoot.get("views")));
+            if ("EVENT_DATE".equalsIgnoreCase(restrictions.getSort())) {
+                query.orderBy(cb.desc(eventRoot.get("eventDate")));
             }
         }
         query.where(predicates.toArray(new Predicate[0]));

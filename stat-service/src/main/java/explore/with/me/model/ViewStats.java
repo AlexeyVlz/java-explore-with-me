@@ -9,5 +9,6 @@ public class ViewStats {
 
     String app;
     String uri;
-    int hits;
+    Long hits;
+
 }
