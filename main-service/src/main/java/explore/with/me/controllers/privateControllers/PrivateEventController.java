@@ -51,7 +51,7 @@ public class PrivateEventController {
                                      @PathVariable @Positive Long eventId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}; userId = %d, eventId = %d",
-                        userId, eventId));
+                userId, eventId));
         return privateEventService.getEventById(userId, eventId);
     }
 
@@ -60,7 +60,7 @@ public class PrivateEventController {
                                     @PathVariable @Positive Long eventId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}; userId = %d, eventId = %d",
-                        userId, eventId));
+                userId, eventId));
         return privateEventService.cancelEvent(userId, eventId);
     }
 
@@ -69,7 +69,7 @@ public class PrivateEventController {
                                                               @PathVariable @Positive Long eventId) {
         log.info(String.format(
                 "Получен запрос к эндпоинту: GET: /users/{userId}/events/{eventId}/requests; userId = %d, eventId = %d",
-                        userId, eventId));
+                userId, eventId));
         return privateEventService.getRequestsByEventId(userId, eventId);
     }
 
@@ -95,13 +95,22 @@ public class PrivateEventController {
 
     @PatchMapping("/{eventId}/like")
     public EventFullDto addLikeOrDislike(@PathVariable @Positive Long userId,
-                                 @PathVariable @Positive Long eventId,
-                                 @RequestParam Boolean isLike) {
+                                         @PathVariable @Positive Long eventId,
+                                         @RequestParam Boolean isLike) {
         log.info(String.format("Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/like; " +
                 "userId = %d, eventId = %d, isLike = %s", userId, eventId, isLike));
         EventFullDto event = privateEventService.addLikeOrDislike(userId, eventId, isLike);
         log.info(String.format("Возвращено событие с лайками = %d и дизлайками = %d: ",
                 event.getLikeCount(), event.getDislikeCount()));
         return event;
+    }
+
+    @DeleteMapping("/{eventId}/like")
+    public void deleteLikeOrDislike(@PathVariable @Positive Long userId,
+                                    @PathVariable @Positive Long eventId,
+                                    @RequestParam Boolean isLike) {
+        log.info(String.format("Получен запрос к эндпоинту: DELETE: /users/{userId}/events/{eventId}/like; " +
+                "userId = %d, eventId = %d, isLike = %s", userId, eventId, isLike));
+        privateEventService.deleteLikeOrDislike(userId, eventId, isLike);
     }
 }

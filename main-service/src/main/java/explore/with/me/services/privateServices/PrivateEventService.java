@@ -155,6 +155,23 @@ public class PrivateEventService {
         }
     }
 
+    public void deleteLikeOrDislike(Long userId, Long eventId, Boolean isLike) {
+        userService.getUserById(userId);
+        Event event = findEventById(eventId);
+        Like like = likeRepository.findLike(userId, eventId, isLike);
+        if (like == null) {
+            throw new DataNotFound(String.format(
+                    "like/dislike пользователя с id = %d на событие с id = %d не обнаружен", userId, eventId));
+        }
+        likeRepository.deleteById(like.getLikeId());
+        if (like.getIsLike()) {
+            event.setLikeCount(event.getLikeCount() - 1);
+        } else {
+            event.setDislikeCount(event.getDislikeCount() - 1);
+        }
+        eventRepository.save(event);
+    }
+
     private Event findEventById(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> new DataNotFound(
                 String.format("Событие с id %d в базе данных не обнаржено", eventId)));
@@ -177,10 +194,10 @@ public class PrivateEventService {
     }
 
     private Event updateLike(Like like, Event event, Boolean isLike) {
-        if(like.getIsLike() == isLike) {
+        if (like.getIsLike() == isLike) {
             return event;
         }
-        if(isLike){
+        if (isLike) {
             like.setIsLike(true);
             likeRepository.save(like);
             event.setLikeCount(event.getLikeCount() + 1);
@@ -193,4 +210,6 @@ public class PrivateEventService {
         }
         return eventRepository.save(event);
     }
+
+
 }

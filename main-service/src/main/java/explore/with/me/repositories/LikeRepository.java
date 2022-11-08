@@ -9,4 +9,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     @Query("select l from Like l " +
             "where l.likerId = ?1 and l.eventId = ?2")
     Like findLike(Long likerId, Long eventId);
+
+    @Query("select l from Like l " +
+            "where l.likerId = ?1 and l.eventId = ?2 and l.isLike = ?3")
+    Like findLike(Long likerId, Long eventId, Boolean isLike);
 }
