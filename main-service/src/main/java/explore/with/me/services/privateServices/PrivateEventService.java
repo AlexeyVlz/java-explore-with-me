@@ -6,6 +6,8 @@ import explore.with.me.models.category.Category;
 import explore.with.me.models.category.CategoryMapper;
 import explore.with.me.models.event.*;
 import explore.with.me.models.likes.Like;
+import explore.with.me.models.likes.LikeMapper;
+import explore.with.me.models.likes.LikeOut;
 import explore.with.me.models.request.RequestStatus;
 import explore.with.me.models.user.User;
 import explore.with.me.repositories.LikeRepository;
@@ -144,14 +146,14 @@ public class PrivateEventService {
         return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
     }
 
-    public EventFullDto addLikeOrDislike(Long userId, Long eventId, Boolean isLike) {
+    public LikeOut addLikeOrDislike(Long userId, Long eventId, Boolean isLike) {
         userService.getUserById(userId);
         Event event = findEventById(eventId);
         Like like = likeRepository.findLike(userId, eventId);
         if (like == null) {
-            return EventMapper.toEventFullDto(saveNewLike(userId, eventId, isLike, event));
+            return LikeMapper.toLikeOut(saveNewLike(userId, eventId, isLike, event));
         } else {
-            return EventMapper.toEventFullDto(updateLike(like, event, isLike));
+            return LikeMapper.toLikeOut(updateLike(like, event, isLike));
         }
     }
 

@@ -1,6 +1,7 @@
 package explore.with.me.controllers.privateControllers;
 
 import explore.with.me.models.event.*;
+import explore.with.me.models.likes.LikeOut;
 import explore.with.me.models.request.ParticipationRequestDto;
 import explore.with.me.services.privateServices.PrivateEventService;
 import lombok.RequiredArgsConstructor;
@@ -94,15 +95,15 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{eventId}/like")
-    public EventFullDto addLikeOrDislike(@PathVariable @Positive Long userId,
+    public LikeOut addLikeOrDislike(@PathVariable @Positive Long userId,
                                          @PathVariable @Positive Long eventId,
                                          @RequestParam Boolean isLike) {
         log.info(String.format("Получен запрос к эндпоинту: PATCH: /users/{userId}/events/{eventId}/like; " +
                 "userId = %d, eventId = %d, isLike = %s", userId, eventId, isLike));
-        EventFullDto event = privateEventService.addLikeOrDislike(userId, eventId, isLike);
-        log.info(String.format("Возвращено событие с лайками = %d и дизлайками = %d: ",
-                event.getLikeCount(), event.getDislikeCount()));
-        return event;
+        LikeOut like = privateEventService.addLikeOrDislike(userId, eventId, isLike);
+        log.info(String.format("По событию с id = %d поставлено лайков:  %d и дизлайков = %d: ",
+                like.getEventId(), like.getLikeCount(), like.getDislikeCount()));
+        return like;
     }
 
     @DeleteMapping("/{eventId}/like")
