@@ -41,8 +41,9 @@ public class PublicEventService {
         addStat(request);
         PageRequest pageRequest = PageRequest.of(restrictions.getFrom() / restrictions.getSize(),
                 restrictions.getSize());
-        return eventRepository.findEventsByParam(restrictions, pageRequest)
-                .stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
+        List<Event> events = eventRepository.findEventsByParam(restrictions, pageRequest);
+        addViews(events);
+        return events.stream().map(EventMapper::toEventShortDto).collect(Collectors.toList());
     }
 
     public List<Event> getEventsByCategoryId(Long categoryId) {
@@ -73,5 +74,28 @@ public class PublicEventService {
         }
         event.setViews(stat[0].getHits());
         return event;
+    }
+
+    private List<Event> addViews(List<Event> events) {
+        List<String> uris = new ArrayList<>();
+        for (Event event : events) {
+            uris.add("/events/" + event.getId());
+        }
+        ResponseEntity<Statistic[]> responseEntity = eventsClient.getStat(uris);
+        Statistic[] stat = responseEntity.getBody();
+        assert stat != null;
+        Map<Long, Integer> views = new HashMap<>();
+        for (Statistic statistic : stat) {
+            String[] array = statistic.getUri().split("/");
+            views.put(Long.valueOf(array[array.length - 1]), statistic.getHits());
+        }
+        for (Event event : events) {
+            if (views.get(event.getId()) == null) {
+                event.setViews(0);
+            } else {
+                event.setViews(views.get(event.getId()));
+            }
+        }
+        return events;
     }
 }
