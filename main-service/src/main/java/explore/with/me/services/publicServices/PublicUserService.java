@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 public class PublicUserService {
 
     private final UserRepository userRepository;
-    public List<UserDto> getUserRating(Integer from, Integer size) {
+
+    public List<UserDto> getUserRating() {
         List<User> users = userRepository.findUserRating();
         return users.stream().map(UserMapper::toUserDto).collect(Collectors.toList());
     }

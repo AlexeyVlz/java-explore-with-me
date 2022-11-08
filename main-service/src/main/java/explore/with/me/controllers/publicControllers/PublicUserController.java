@@ -6,11 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -22,10 +19,9 @@ public class PublicUserController {
     private final PublicUserService publicUserService;
 
     @GetMapping
-    public List<UserDto> getUserRating(@RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
-                                       @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
-        log.info(String.format("Получен эндпонит GET /users; from = %d, size = %d", from, size));
-        List<UserDto> users = publicUserService.getUserRating(from, size);
+    public List<UserDto> getUserRating() {
+        log.info("Получен эндпонит GET /users");
+        List<UserDto> users = publicUserService.getUserRating();
         log.info("Возвращен список пользователей: " + users);
         return users;
     }

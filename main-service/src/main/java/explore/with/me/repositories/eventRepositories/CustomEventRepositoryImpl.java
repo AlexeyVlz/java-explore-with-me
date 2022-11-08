@@ -46,7 +46,7 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         } else {
             predicates.add(cb.greaterThanOrEqualTo(eventRoot.get("eventDate"), LocalDateTime.now()));
         }
-        if (restrictions.getOnlyAvailable()) {
+        if (restrictions.getOnlyAvailable() != null) {
             predicates.add(cb.greaterThan(eventRoot.get("participantLimit"), eventRoot.get("confirmedRequests")));
         }
         if (restrictions.getSort() != null) {
