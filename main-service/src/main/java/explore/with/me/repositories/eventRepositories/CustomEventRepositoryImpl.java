@@ -53,6 +53,9 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
             if ("EVENT_DATE".equalsIgnoreCase(restrictions.getSort())) {
                 query.orderBy(cb.desc(eventRoot.get("eventDate")));
             }
+            if ("LIKES".equalsIgnoreCase(restrictions.getSort())) {
+                query.orderBy(cb.desc(eventRoot.get("likeCount")));
+            }
         }
         query.where(predicates.toArray(new Predicate[0]));
         return em.createQuery(query).getResultList();
