@@ -46,12 +46,15 @@ public class CustomEventRepositoryImpl implements CustomEventRepository {
         } else {
             predicates.add(cb.greaterThanOrEqualTo(eventRoot.get("eventDate"), LocalDateTime.now()));
         }
-        if (restrictions.getOnlyAvailable()) {
+        if (restrictions.getOnlyAvailable() != null) {
             predicates.add(cb.greaterThan(eventRoot.get("participantLimit"), eventRoot.get("confirmedRequests")));
         }
         if (restrictions.getSort() != null) {
             if ("EVENT_DATE".equalsIgnoreCase(restrictions.getSort())) {
                 query.orderBy(cb.desc(eventRoot.get("eventDate")));
+            }
+            if ("LIKES".equalsIgnoreCase(restrictions.getSort())) {
+                query.orderBy(cb.desc(eventRoot.get("likeCount")));
             }
         }
         query.where(predicates.toArray(new Predicate[0]));

@@ -5,8 +5,12 @@ import explore.with.me.models.State;
 import explore.with.me.models.category.Category;
 import explore.with.me.models.category.CategoryMapper;
 import explore.with.me.models.event.*;
+import explore.with.me.models.likes.Like;
+import explore.with.me.models.likes.LikeMapper;
+import explore.with.me.models.likes.LikeOut;
 import explore.with.me.models.request.RequestStatus;
 import explore.with.me.models.user.User;
+import explore.with.me.repositories.LikeRepository;
 import explore.with.me.repositories.RequestRepository;
 import explore.with.me.services.adminServices.UserService;
 import explore.with.me.services.publicServices.PublicCategoryService;
@@ -17,6 +21,7 @@ import explore.with.me.models.request.RequestMapper;
 import explore.with.me.repositories.LocationRepository;
 import explore.with.me.repositories.eventRepositories.EventRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +33,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PrivateEventService {
 
     private final UserService userService;
@@ -35,6 +41,7 @@ public class PrivateEventService {
     private final PublicCategoryService publicCategoryService;
     private final RequestRepository requestRepository;
     private final LocationRepository locationRepository;
+    private final LikeRepository likeRepository;
 
     public List<EventShortDto> getEventListByUserId(Long userId, Integer from, Integer size) {
         userService.getUserById(userId);
@@ -81,6 +88,8 @@ public class PrivateEventService {
         Category category = publicCategoryService.findCategoryById(newEventDto.getCategory());
         newEventDto.setLocation(locationRepository.save(newEventDto.getLocation()));
         Event event = EventMapper.toEvent(newEventDto, category, initiator);
+        event.setLikeCount(0L);
+        event.setDislikeCount(0L);
         event = eventRepository.save(event);
         event.setViews(0);
         return EventMapper.toEventFullDto(event);
@@ -137,6 +146,34 @@ public class PrivateEventService {
         return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
     }
 
+    public LikeOut addLikeOrDislike(Long userId, Long eventId, Boolean isLike) {
+        userService.getUserById(userId);
+        Event event = findEventById(eventId);
+        Like like = likeRepository.findLike(userId, eventId);
+        if (like == null) {
+            return LikeMapper.toLikeOut(saveNewLike(userId, eventId, isLike, event));
+        } else {
+            return LikeMapper.toLikeOut(updateLike(like, event, isLike));
+        }
+    }
+
+    public void deleteLikeOrDislike(Long userId, Long eventId, Boolean isLike) {
+        userService.getUserById(userId);
+        Event event = findEventById(eventId);
+        Like like = likeRepository.findLike(userId, eventId, isLike);
+        if (like == null) {
+            throw new DataNotFound(String.format(
+                    "like/dislike пользователя с id = %d на событие с id = %d не обнаружен", userId, eventId));
+        }
+        likeRepository.deleteById(like.getLikeId());
+        if (like.getIsLike()) {
+            event.setLikeCount(event.getLikeCount() - 1);
+        } else {
+            event.setDislikeCount(event.getDislikeCount() - 1);
+        }
+        eventRepository.save(event);
+    }
+
     private Event findEventById(Long eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> new DataNotFound(
                 String.format("Событие с id %d в базе данных не обнаржено", eventId)));
@@ -146,6 +183,34 @@ public class PrivateEventService {
         if (!Objects.equals(initiatorId, userId)) {
             throw new ConflictDataException(errorMessage);
         }
+    }
+
+    private Event saveNewLike(Long userId, Long eventId, Boolean isLike, Event event) {
+        likeRepository.save(new Like(userId, eventId, isLike));
+        if (isLike) {
+            event.setLikeCount(event.getLikeCount() + 1);
+        } else {
+            event.setDislikeCount(event.getDislikeCount() + 1);
+        }
+        return eventRepository.save(event);
+    }
+
+    private Event updateLike(Like like, Event event, Boolean isLike) {
+        if (like.getIsLike() == isLike) {
+            return event;
+        }
+        if (isLike) {
+            like.setIsLike(true);
+            likeRepository.save(like);
+            event.setLikeCount(event.getLikeCount() + 1);
+            event.setDislikeCount(event.getDislikeCount() - 1);
+        } else {
+            like.setIsLike(false);
+            likeRepository.save(like);
+            event.setLikeCount(event.getLikeCount() - 1);
+            event.setDislikeCount(event.getDislikeCount() + 1);
+        }
+        return eventRepository.save(event);
     }
 
 

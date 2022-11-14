@@ -7,6 +7,7 @@ import explore.with.me.models.user.UserShortDto;
 import lombok.Data;
 
 
+
 @Data
 public class EventFullDto {
 
@@ -26,11 +27,13 @@ public class EventFullDto {
     private State state;
     private String title;
     private Integer views;
+    private Long likeCount;
+    private Long dislikeCount;
 
     public EventFullDto(Long id, String annotation, CategoryDto category, Integer confirmedRequests,
                         String createdOn, String description, String eventDate, UserShortDto initiator,
                         Location location, Boolean paid, Integer participantLimit, Boolean requestModeration,
-                        State state, String title, Integer views) {
+                        State state, String title, Integer views, Long likeCount, Long dislikeCount) {
         this.id = id;
         this.annotation = annotation;
         this.category = category;
@@ -46,5 +49,7 @@ public class EventFullDto {
         this.state = state;
         this.title = title;
         this.views = views;
+        this.likeCount = likeCount;
+        this.dislikeCount = dislikeCount;
     }
 }
