@@ -25,14 +25,19 @@ public class AdminEventController {
     private final AdminEventService adminEventService;
 
     @GetMapping
-    public List<EventFullDto> adminGetEvents(@RequestParam List<Long> users,
-                                             @RequestParam List<String> states,
-                                             @RequestParam List<Long> categories,
-                                             @RequestParam String rangeStart,
-                                             @RequestParam String rangeEnd,
+    public List<EventFullDto> adminGetEvents(@RequestParam(required = false) List<Long> users,
+                                             @RequestParam(required = false) List<String> states,
+                                             @RequestParam(required = false) List<Long> categories,
+                                             @RequestParam(required = false) String rangeStart,
+                                             @RequestParam(required = false) String rangeEnd,
                                              @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
                                              @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
-        List<State> stateList = states.stream().map(State::valueOf).collect(Collectors.toList());
+        List<State> stateList;
+        if (states != null) {
+            stateList = states.stream().map(State::valueOf).collect(Collectors.toList());
+        } else {
+            stateList = null;
+        }
         AdminEventRestrictions restrictions = AdminEventRestrictions.builder()
                 .users(users)
                 .states(stateList)
