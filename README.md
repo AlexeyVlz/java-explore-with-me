@@ -1,6 +1,7 @@
 # java-explore-with-me
 # Дипломный проект
-https://github.com/AlexeyVlz/java-explore-with-me/pull/1
+*Spring Boot, Docker, JUnit, PostgreSQL, Hibernate, SQL, JPQL, Maven, REST, lombok, h2, Mockito, Criteria*
+
 
 
 ### Пользователи данного приложения могут создавать категории, события, подавать заявкина на участие в событиях других пользователей. Реализован сбор статистики. 
