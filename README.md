@@ -10,6 +10,7 @@
 - для пользователей без авторизации;
 - для авторизованных пользователей;
 - для администратора приложения.
+
 ссылка на данные для swagger: https://raw.githubusercontent.com/yandex-praktikum/java-explore-with-me/main/ewm-main-service-spec.json
 
 #### - добавление, удаление и получение информации о пользоватиле
