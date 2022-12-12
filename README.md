@@ -1,5 +1,4 @@
 # java-explore-with-me
-# Дипломный проект
 *Spring Boot, Docker, JUnit, PostgreSQL, Hibernate, SQL, JPQL, Maven, REST, lombok, h2, Mockito, Criteria*
 
 
